@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "currency-no-ads",
-    "slug": "currency-no-ads",
+    "name": "howmuchin",
+    "slug": "howmuchin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,16 +15,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.egorshar.howmuchin",
+      "buildNumber": "6"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "jsEngine": "hermes"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "extra": {
+      "eas": {
+        "projectId": "b81bfa50-6a4b-47af-a5ca-ef20db0873be"
+      }
     }
   }
 }
