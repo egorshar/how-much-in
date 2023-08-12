@@ -321,5 +321,15 @@
   "app.Add currency": "Add currency",
   "app.Done": "Done",
   "app.error.Rates are up to date": "Rates are up to date 👍",
-  "app.error.Oops, try later please": "Oops, try later please"
+  "app.error.Oops, try later please": "Oops, try later please",
+  "app.about.Rates updated": "Rates updated",
+  "app.about.Feedback": "Feedback",
+  "app.about.Terms": "Terms",
+  "app.about.Privacy": "Privacy",
+  "app.about.Rate in AppStore": "Rate in AppStore",
+  "app.about.GitHub repo": "GitHub repo",
+  "app.about.No responsibility message": "Application developers doesn't responsible for any errors or exchange rates delays and for actions based on this app data",
+  "app.about.Feedback description": "Please use this button to contact us with bugreports, ideas or new features",
+  "app.about.Sources info": "We download exchange rates from public source and update once a day",
+  "app.about.Purposes info": "Application is designed for personal use only and is not intended to be used as a professional financial instrument"
 }

@@ -6,7 +6,8 @@ import {
   View,
 } from 'react-native';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BlurView } from '@react-native-community/blur';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import tw from '@ui/tailwind';
@@ -27,7 +28,7 @@ export default function MainFooter({
   refreshing,
   refreshingMessage,
 }: MainFooterProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const getRefreshingMessage = useCallback(() => {
     switch (true) {

@@ -121,8 +121,8 @@ export const useStore = create(
       return store;
     },
     {
-      name: 'currencies-storage', // unique name
-      storage: createJSONStorage(() => AsyncStorage), // Add this here!
+      name: 'currencies-storage',
+      storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );

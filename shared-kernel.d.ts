@@ -39,5 +39,10 @@ interface CurrenciesInterface {
 }
 
 interface FlagsIconsInterface {
-  [key: string]: string;
+  [key: string]: number;
+}
+
+declare module '@assets/flags/flagsIndex' {
+  const FLAGS: FlagsIconsInterface;
+  export = FLAGS;
 }

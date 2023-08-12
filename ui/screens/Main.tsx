@@ -5,7 +5,8 @@ import DraggableFlatList, {
   ScaleDecorator,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
-import { useNavigation } from '@react-navigation/native';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getLocales } from 'expo-localization';
@@ -22,7 +23,7 @@ import { useStore } from '@services/store';
 
 export default function MainScreen() {
   const store = useStore();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const locales = getLocales();
 
@@ -77,7 +78,7 @@ export default function MainScreen() {
   }, []);
 
   const onValueChange = useCallback(
-    (code: CurrencyCode, v, fully?: boolean) => {
+    (code: CurrencyCode, v: number, fully?: boolean) => {
       const { rates } = store;
 
       if (!fully) {
@@ -86,14 +87,18 @@ export default function MainScreen() {
         for (let i = index - 10; i < index + 10; i += 1) {
           const item = data[i];
 
-          if (item) {
-            valuesRef.current[item.code] = rates[code][item.code] * (v || 0);
+          if (item && rates[code]) {
+            const rate = rates[code] ? rates[code][item.code] : 0;
+
+            valuesRef.current[item.code] = rate * (v || 0);
           }
         }
       } else {
         valuesRef.current = data.reduce((result, item) => {
           if (rates[item.code]) {
-            result[item.code] = rates[code][item.code] * (v || 0);
+            const rate = rates[code] ? rates[code][item.code] : 0;
+
+            result[item.code] = rate * (v || 0);
           }
 
           return result;
@@ -167,7 +172,7 @@ export default function MainScreen() {
     navigation.setOptions({
       headerLargeTitle: true,
       headerTransparent: true,
-      headerBlurEffect: true,
+      headerBlurEffect: 'regular',
       headerRight: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('AddCurrencyModal')}
