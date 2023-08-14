@@ -9,6 +9,12 @@ Open Source currency converter app without ads
 - Tailwind (twrnc)
 - Zustand
 
+## Env
+
+node v16.15.1
+yarn v1.22.15
+sudo npm i -g eas-cli expo-cli
+
 ## Dev Setup
 ```sh
 # run once
