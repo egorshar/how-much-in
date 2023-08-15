@@ -93,7 +93,7 @@ const ListItem = memo(
                 selectTextOnFocus
                 contextMenuHidden
                 keyboardType="numeric"
-                style={tw`text-lg py-1 px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
+                style={tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
                 onChangeText={v => {
                   setValues(item.code, parseFloat(v));
                   valueRef.current = v;

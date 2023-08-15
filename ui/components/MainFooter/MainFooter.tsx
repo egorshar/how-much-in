@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -28,6 +29,7 @@ export default function MainFooter({
   refreshing,
   refreshingMessage,
 }: MainFooterProps) {
+  const WrapperView = Platform.OS === 'ios' ? BlurView : View;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const getRefreshingMessage = useCallback(() => {
@@ -54,8 +56,8 @@ export default function MainFooter({
   }, [lastSync, refreshing, refreshingMessage]);
 
   return (
-    <BlurView
-      style={tw.style(tw`absolute bottom-0 w-full h-[82px]`)}
+    <WrapperView
+      style={tw.style(tw`absolute bottom-0 w-full h-[82px] android:h-[55px]`)}
       blurType="regular"
       reducedTransparencyFallbackColor="white"
     >
@@ -111,6 +113,6 @@ export default function MainFooter({
           </>
         )}
       </View>
-    </BlurView>
+    </WrapperView>
   );
 }

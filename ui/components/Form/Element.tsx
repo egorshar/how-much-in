@@ -49,7 +49,7 @@ function FormElement(props: FormElementProps) {
         style={[
           tw.style(
             'ios:bg-white ios:pl-4 ios:mx-5 ios:pr-1 ios:dark:bg-[#1C1C1E]',
-            'android:px-4 relative',
+            'android:px-4 relative android:bg-white',
             hasStaticHeight && 'ios:h-11 android:h-14',
             isFirst && 'ios:rounded-t-xl',
             isLast && 'ios:rounded-b-xl mb-8',

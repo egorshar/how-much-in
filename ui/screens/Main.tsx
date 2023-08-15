@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, RefreshControl, TouchableOpacity } from 'react-native';
+import {
+  AppState,
+  Platform,
+  RefreshControl,
+  TouchableOpacity,
+} from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DraggableFlatList, {
   ScaleDecorator,
@@ -170,8 +175,8 @@ export default function MainScreen() {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLargeTitle: true,
-      headerTransparent: true,
+      headerLargeTitle: Platform.OS === 'ios',
+      headerTransparent: Platform.OS === 'ios',
       headerBlurEffect: 'regular',
       headerRight: () => (
         <TouchableOpacity
