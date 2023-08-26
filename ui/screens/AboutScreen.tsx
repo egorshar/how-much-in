@@ -23,20 +23,22 @@ export default function AddCurrencyScreen() {
   const store = useStore();
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={tw`p-4 -m-4`}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Text style={tw`font-sansSemiBold text-base`}>
-            <FormattedMessage id="app.Close" />
-          </Text>
-        </TouchableOpacity>
-      ),
-    });
+    if (Platform.OS === 'ios') {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={tw`p-4 -m-4`}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Text style={tw`font-sansSemiBold text-base`}>
+              <FormattedMessage id="app.Close" />
+            </Text>
+          </TouchableOpacity>
+        ),
+      });
+    }
   }, []);
 
   return (

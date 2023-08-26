@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   AppState,
   Platform,
@@ -173,7 +180,7 @@ export default function MainScreen() {
     onRefresh(false);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLargeTitle: Platform.OS === 'ios',
       headerTransparent: Platform.OS === 'ios',

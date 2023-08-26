@@ -98,7 +98,7 @@ const ListItemDraggable = memo(
                   style={tw`text-base px-2 font-sansBold`}
                 >
                   <FormattedMessage
-                    id={`currencies.prepositional.${item.label}`}
+                    id={`currencies.prepositional.${item.code.toLowerCase()}`}
                     defaultMessage={item.label}
                   />
                 </Text>

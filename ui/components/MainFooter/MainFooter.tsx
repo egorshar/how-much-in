@@ -57,7 +57,9 @@ export default function MainFooter({
 
   return (
     <WrapperView
-      style={tw.style(tw`absolute bottom-0 w-full h-[82px] android:h-[55px]`)}
+      style={tw.style(
+        tw`absolute bottom-0 w-full h-[82px] android:h-[55px] android:bg-white`,
+      )}
       blurType="regular"
       reducedTransparencyFallbackColor="white"
     >

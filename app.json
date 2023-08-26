@@ -2,7 +2,7 @@
   "expo": {
     "name": "How Much In",
     "slug": "howmuchin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,15 +17,17 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.egorshar.howmuchin",
-      "buildNumber": "7"
+      "buildNumber": "8"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "versionCode": 1,
       "jsEngine": "hermes",
-      "package": "com.egorshar.howmuchin"
+      "package": "com.egorshar.howmuchin",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "extra": {
       "eas": {

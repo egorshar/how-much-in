@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   NativeSyntheticEvent,
   Platform,
@@ -47,7 +54,8 @@ export default function AddCurrencyScreen() {
     const indexedData = store.currencies.reduce(
       (result: { [key: string]: AddCurrencyItem[] }, item) => {
         const countryName = intl.formatMessage({
-          id: `currencies.nominative.${item.label}`,
+          id: `currencies.nominative.${item.code.toLowerCase()}`,
+          defaultMessage: item.label,
         });
 
         if (
@@ -184,22 +192,22 @@ export default function AddCurrencyScreen() {
   }, [onAddingDone]);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
+    return navigation.addListener('beforeRemove', () => {
       if (Platform.OS === 'android') {
         onAddingDone(false);
       }
     });
-
-    return unsubscribe;
   }, [navigation, onAddingDone]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerSearchBarOptions: {
+        hideWhenScrolling: false,
         placeholder: intl.formatMessage({
           id: 'app.Search by country or currency',
         }),
         cancelButtonText: intl.formatMessage({ id: 'app.Cancel' }),
+        onCancelButtonPress: () => setSearchValue(''),
         onChangeText: (e: NativeSyntheticEvent<TextInputChangeEventData>) =>
           setSearchValue(e.nativeEvent.text),
       },

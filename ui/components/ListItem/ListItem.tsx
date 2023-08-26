@@ -81,7 +81,7 @@ const ListItem = memo(
               style={tw`text-sm font-bold pb-1 pl-2 font-sansBold font-bold`}
             >
               <FormattedMessage
-                id={`currencies.prepositional.${item.label}`}
+                id={`currencies.prepositional.${item.code.toLowerCase()}`}
                 defaultMessage={item.label}
               />
             </Text>
