@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,6 +21,9 @@ function RootNavigator() {
         options={() => ({
           title: intl.formatMessage({ id: 'app.title' }),
           headerTitleStyle: tw`font-sansBold`,
+          headerLargeTitle: Platform.OS === 'ios',
+          headerTransparent: Platform.OS === 'ios',
+          headerBlurEffect: 'regular',
         })}
       />
 

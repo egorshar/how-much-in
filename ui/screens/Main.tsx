@@ -181,22 +181,26 @@ export default function MainScreen() {
   }, []);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLargeTitle: Platform.OS === 'ios',
-      headerTransparent: Platform.OS === 'ios',
-      headerBlurEffect: 'regular',
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AddCurrencyModal')}
-          style={tw`p-2 -m-2`}
-        >
-          <Ionicons
-            name="add-outline"
-            size={30}
-            color={tw.color('slate-500')}
-          />
-        </TouchableOpacity>
-      ),
+    /**
+     * Timeout has been added to properly
+     * position the `headerRight` component
+     * https://github.com/software-mansion/react-native-screens/issues/1570
+     */
+    setTimeout(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AddCurrencyModal')}
+            style={tw`p-2 -m-2`}
+          >
+            <Ionicons
+              name="add-outline"
+              size={30}
+              color={tw.color('slate-500')}
+            />
+          </TouchableOpacity>
+        ),
+      });
     });
   }, [isEditing, navigation]);
 

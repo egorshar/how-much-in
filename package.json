@@ -1,10 +1,10 @@
 {
   "name": "how-much-in",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "node_modules/expo/AppEntry.js",
   "author": "egorshar <egych@icloud.com> (https://egor.sh)",
   "scripts": {
-    "start": "expo start",
+    "start": "APP_VARIANT=development expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "dev:ios": "eas build --profile development --platform ios",

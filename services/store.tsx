@@ -5,10 +5,19 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { API_DOMAIN, CURRENCIES } from '@constants';
 
+const getTodayDate = () => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const yyyy = today.getFullYear();
+
+  return `${mm}/${dd}/${yyyy}`;
+};
+
 const getRate = async (currency: CurrencyCode) => {
   try {
     const response = await axios(
-      `${API_DOMAIN}/currency-api@1/latest/currencies/${currency}?${Date.now()}`,
+      `${API_DOMAIN}/currency-api@1/latest/currencies/${currency}?${getTodayDate()}`,
     );
 
     return response.data;
