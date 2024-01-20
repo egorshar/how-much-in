@@ -1,6 +1,6 @@
 export const ITEM_HEIGHT = 83;
 export const API_DOMAIN = 'https://api.how-much.in/';
-export const FEEDBACK_EMAIL = '';
+export const FEEDBACK_EMAIL = 'egych@icloud.com';
 export const CURRENCIES: CurrenciesInterface = {
   EUR: 'EU',
   AED: 'AE',

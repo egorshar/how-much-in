@@ -81,7 +81,7 @@ const ListItem = memo(
               style={tw`text-sm font-bold pb-1 pl-2 font-sansBold font-bold`}
             >
               <FormattedMessage
-                id={`currencies.prepositional.${item.label}`}
+                id={`currencies.prepositional.${item.code.toLowerCase()}`}
                 defaultMessage={item.label}
               />
             </Text>
@@ -93,7 +93,7 @@ const ListItem = memo(
                 selectTextOnFocus
                 contextMenuHidden
                 keyboardType="numeric"
-                style={tw`text-lg py-1 px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
+                style={tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
                 onChangeText={v => {
                   setValues(item.code, parseFloat(v));
                   valueRef.current = v;

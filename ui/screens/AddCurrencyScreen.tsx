@@ -1,6 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   NativeSyntheticEvent,
+  Platform,
   SectionList,
   StyleSheet,
   Text,
@@ -46,7 +54,8 @@ export default function AddCurrencyScreen() {
     const indexedData = store.currencies.reduce(
       (result: { [key: string]: AddCurrencyItem[] }, item) => {
         const countryName = intl.formatMessage({
-          id: `currencies.nominative.${item.label}`,
+          id: `currencies.nominative.${item.code.toLowerCase()}`,
+          defaultMessage: item.label,
         });
 
         if (
@@ -148,48 +157,68 @@ export default function AddCurrencyScreen() {
     [],
   );
 
-  const onAddingDone = useCallback(() => {
-    const { activeCurrency, values: currentValues, rates } = store;
+  const onAddingDone = useCallback(
+    (withBackNavigate = true) => {
+      const { activeCurrency, values: currentValues, rates } = store;
 
-    store.setSelectedCurrencies([...selectedItems.current]);
+      store.setSelectedCurrencies([...selectedItems.current]);
 
-    if (activeCurrency) {
-      store.setValues(
-        selectedItems.current.reduce(
-          (result: CurrenciesStore['values'], currencyCode) => {
-            if (rates[currencyCode]) {
-              result[currencyCode] =
-                rates[activeCurrency][currencyCode] *
-                (currentValues[activeCurrency] || 0);
-            }
+      if (activeCurrency) {
+        store.setValues(
+          selectedItems.current.reduce(
+            (result: CurrenciesStore['values'], currencyCode) => {
+              if (rates[currencyCode]) {
+                result[currencyCode] =
+                  rates[activeCurrency][currencyCode] *
+                  (currentValues[activeCurrency] || 0);
+              }
 
-            return result;
-          },
-          {},
-        ),
-      );
-    }
+              return result;
+            },
+            {},
+          ),
+        );
+      }
 
-    navigation.goBack();
-  }, [store.rates, store.values]);
+      if (withBackNavigate) {
+        navigation.goBack();
+      }
+    },
+    [store.rates, store.values],
+  );
+
+  const onPressAddingDone = useCallback(() => {
+    onAddingDone();
+  }, [onAddingDone]);
 
   useEffect(() => {
+    return navigation.addListener('beforeRemove', () => {
+      if (Platform.OS === 'android') {
+        onAddingDone(false);
+      }
+    });
+  }, [navigation, onAddingDone]);
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerSearchBarOptions: {
+        hideWhenScrolling: false,
         placeholder: intl.formatMessage({
           id: 'app.Search by country or currency',
         }),
         cancelButtonText: intl.formatMessage({ id: 'app.Cancel' }),
+        onCancelButtonPress: () => setSearchValue(''),
         onChangeText: (e: NativeSyntheticEvent<TextInputChangeEventData>) =>
           setSearchValue(e.nativeEvent.text),
       },
-      headerRight: () => (
-        <TouchableOpacity style={tw`p-4 -m-4`} onPress={onAddingDone}>
-          <Text style={tw`font-sansSemiBold text-base`}>
-            <FormattedMessage id="app.Done" />
-          </Text>
-        </TouchableOpacity>
-      ),
+      headerRight: () =>
+        Platform.OS === 'ios' ? (
+          <TouchableOpacity style={tw`p-4 -m-4`} onPress={onPressAddingDone}>
+            <Text style={tw`font-sansSemiBold text-base`}>
+              <FormattedMessage id="app.Done" />
+            </Text>
+          </TouchableOpacity>
+        ) : null,
     });
   }, [onAddingDone]);
 

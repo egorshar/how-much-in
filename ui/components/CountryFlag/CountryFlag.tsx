@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import tw from '@ui/tailwind';
 
-import * as flag from '@assets/flags/flagsIndex';
+import * as FLAGS from '@assets/flags/flagsIndex';
 import { CURRENCIES } from '@constants';
 
 const fixCountryCode = (code: string) => {
@@ -32,7 +32,7 @@ export default function CountryFlag({ isoCode }: CountryFlagProps) {
       >
         {CURRENCIES[isoCodeUpper] ? (
           <FastImage
-            source={flag[countryCode]}
+            source={FLAGS[countryCode]}
             style={{ width: size * 1.6, height: size }}
           />
         ) : null}

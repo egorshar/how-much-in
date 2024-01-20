@@ -23,36 +23,47 @@ export default function AddCurrencyScreen() {
   const store = useStore();
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={tw`p-4 -m-4`}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Text style={tw`font-sansSemiBold text-base`}>
-            <FormattedMessage id="app.Close" />
-          </Text>
-        </TouchableOpacity>
-      ),
-    });
+    if (Platform.OS === 'ios') {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={tw`p-4 -m-4`}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Text style={tw`font-sansSemiBold text-base`}>
+              <FormattedMessage id="app.Close" />
+            </Text>
+          </TouchableOpacity>
+        ),
+      });
+    }
   }, []);
 
   return (
     <ScrollView style={tw`py-5`}>
       <FormText
-        text={`Курс обновлен ${intl.formatDate(new Date(store.lastSync))}`}
-        description={
-          'Информация о курсах валют загружена из публичного источника и обновляется раз в сутки\n\nДанное приложение разработано для информационных целей и не предназначено для использования как профессиональный финансовый инструмент'
-        }
+        text={`${intl.formatMessage({
+          id: 'app.about.Rates updated',
+        })} ${intl.formatDate(new Date(store.lastSync))}`}
+        description={[
+          intl.formatMessage({
+            id: 'app.about.Sources info',
+          }),
+          intl.formatMessage({
+            id: 'app.about.Purposes info',
+          }),
+        ].join('\n\n')}
         isFirst
         isLast
       />
 
       <FormButton
-        title="Обратная связь"
-        description="Если заметили баг или у вас есть пожелания и идеи, то можете поделиться ими с помощью этой кнопки"
+        title={intl.formatMessage({ id: 'app.about.Feedback' })}
+        description={intl.formatMessage({
+          id: 'app.about.Feedback description',
+        })}
         onPress={() =>
           Linking.openURL(
             `mailto:${FEEDBACK_EMAIL}?subject=%5BHow-Much.In%5D%20Feedback`,
@@ -63,28 +74,30 @@ export default function AddCurrencyScreen() {
       />
 
       <FormButton
-        title="Условия использования"
+        title={intl.formatMessage({ id: 'app.about.Terms' })}
         onPress={() => Linking.openURL(`https://how-much.in/terms/`)}
         isFirst
         isLast={false}
       />
       <FormButton
-        title="Политика конфиденциальности"
+        title={intl.formatMessage({ id: 'app.about.Privacy' })}
         onPress={() => Linking.openURL(`https://how-much.in/privacy/`)}
         isFirst={false}
         isLast={false}
       />
-      {Platform.OS === 'ios' && (
+      {false && Platform.OS === 'ios' && (
         <FormButton
-          title="Оценка в AppStore"
+          title={intl.formatMessage({ id: 'app.about.Rate in AppStore' })}
           onPress={() => Linking.openURL(`https://how-much.in/privacy/`)}
           isFirst={false}
           isLast={false}
         />
       )}
       <FormButton
-        title="Исходный код на GitHub"
-        description="Разработчики данного приложения не несут ответственность за ошибки и задержки в данных по курсам валют и за действия на основе этих данных"
+        title={intl.formatMessage({ id: 'app.about.GitHub repo' })}
+        description={intl.formatMessage({
+          id: 'app.about.No responsibility message',
+        })}
         onPress={() => Linking.openURL(`https://github.com/egorshar/howmuchin`)}
         isFirst={false}
         isLast

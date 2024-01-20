@@ -1,7 +1,8 @@
 {
-  "name": "now-much-in",
+  "name": "how-much-in",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "author": "egorshar <egych@icloud.com> (https://egor.sh)",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

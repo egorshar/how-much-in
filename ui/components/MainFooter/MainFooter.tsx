@@ -1,12 +1,14 @@
 import {
   ActivityIndicator,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BlurView } from '@react-native-community/blur';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import tw from '@ui/tailwind';
@@ -27,7 +29,8 @@ export default function MainFooter({
   refreshing,
   refreshingMessage,
 }: MainFooterProps) {
-  const navigation = useNavigation();
+  const WrapperView = Platform.OS === 'ios' ? BlurView : View;
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const getRefreshingMessage = useCallback(() => {
     switch (true) {
@@ -53,8 +56,10 @@ export default function MainFooter({
   }, [lastSync, refreshing, refreshingMessage]);
 
   return (
-    <BlurView
-      style={tw.style(tw`absolute bottom-0 w-full h-[82px]`)}
+    <WrapperView
+      style={tw.style(
+        tw`absolute bottom-0 w-full h-[82px] android:h-[55px] android:bg-white`,
+      )}
       blurType="regular"
       reducedTransparencyFallbackColor="white"
     >
@@ -110,6 +115,6 @@ export default function MainFooter({
           </>
         )}
       </View>
-    </BlurView>
+    </WrapperView>
   );
 }
