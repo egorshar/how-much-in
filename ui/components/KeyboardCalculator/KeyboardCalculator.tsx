@@ -77,7 +77,7 @@ export default function KeyboardCalculator(props: KeyboardCalculatorProps) {
           <KeyboardCalculatorButton
             type="divide"
             icon="remove-outline"
-            iconStyle={{ transform: [{ rotateY: '180deg' }] }}
+            iconStyle={{ transform: [{ rotate: '-60deg' }] }}
             onPress={onPress}
           />
           <KeyboardCalculatorButton
