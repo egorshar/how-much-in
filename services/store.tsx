@@ -17,7 +17,7 @@ const getTodayDate = () => {
 const getRate = async (currency: CurrencyCode) => {
   try {
     const response = await axios(
-      `${API_DOMAIN}/currency-api@1/latest/currencies/${currency}?${getTodayDate()}`,
+      `${API_DOMAIN}/currency-api@latest/v1/currencies/${currency}?${getTodayDate()}`,
     );
 
     return response.data;
@@ -58,7 +58,7 @@ export const useStore = create(
 
           try {
             const response = await axios(
-              `${API_DOMAIN}/currency-api@1/latest/currencies?${Date.now()}`,
+              `${API_DOMAIN}/currency-api@latest/v1/currencies?${Date.now()}`,
             );
             const keys = Object.keys(response.data);
             const currenciesKeys = Object.keys(CURRENCIES);

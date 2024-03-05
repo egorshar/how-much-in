@@ -25,7 +25,10 @@ export default function App() {
     'Inter-SemiBold': require('@assets/fonts/Inter-SemiBold.otf'),
   });
 
-  useDeviceContext(tw, { withDeviceColorScheme: false });
+  useDeviceContext(tw, {
+    observeDeviceColorSchemeChanges: false,
+    initialColorScheme: 'light',
+  });
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -40,7 +43,7 @@ export default function App() {
   return (
     <IntlProvider
       messages={languageCode === 'ru' ? RU_MESSAGES : EN_MESSAGES}
-      locale={languageCode}
+      locale={languageCode || 'en'}
       defaultLocale="en"
     >
       <SafeAreaProvider onLayout={onLayoutRootView}>

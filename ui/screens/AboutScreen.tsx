@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FormattedMessage, useIntl } from 'react-intl';
 import tw from '@ui/tailwind';
 
-import { FEEDBACK_EMAIL } from '@constants';
+import { APP_ID } from '@constants';
 
 import FormButton from '@ui/components/Form/Button';
 import FormText from '@ui/components/Form/Text';
@@ -65,30 +65,26 @@ export default function AddCurrencyScreen() {
           id: 'app.about.Feedback description',
         })}
         onPress={() =>
-          Linking.openURL(
-            `mailto:${FEEDBACK_EMAIL}?subject=%5BHow-Much.In%5D%20Feedback`,
-          )
+          Linking.openURL(`https://github.com/egorshar/howmuchin/issues`)
         }
         isFirst
         isLast
       />
 
       <FormButton
-        title={intl.formatMessage({ id: 'app.about.Terms' })}
-        onPress={() => Linking.openURL(`https://how-much.in/terms/`)}
+        title={intl.formatMessage({ id: 'app.about.Privacy' })}
+        onPress={() => Linking.openURL(`https://www.how-much.in/privacy.html`)}
         isFirst
         isLast={false}
       />
-      <FormButton
-        title={intl.formatMessage({ id: 'app.about.Privacy' })}
-        onPress={() => Linking.openURL(`https://how-much.in/privacy/`)}
-        isFirst={false}
-        isLast={false}
-      />
-      {false && Platform.OS === 'ios' && (
+      {Platform.OS === 'ios' && (
         <FormButton
           title={intl.formatMessage({ id: 'app.about.Rate in AppStore' })}
-          onPress={() => Linking.openURL(`https://how-much.in/privacy/`)}
+          onPress={() =>
+            Linking.openURL(
+              `https://itunes.apple.com/us/app/appName/id${APP_ID}?mt=8&action=write-review`,
+            )
+          }
           isFirst={false}
           isLast={false}
         />

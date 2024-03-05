@@ -1,14 +1,15 @@
 /* eslint-disable react/style-prop-object */
 
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
-import { ITEM_HEIGHT } from '@constants';
+import { EDITING_INPUT_ACC_VIEW_ID, ITEM_HEIGHT } from '@constants';
 
 export type ListItemProps = {
+  activeInputRef: MutableRefObject<TextInput | null>;
   item: CurrencyItem & {
     key: string;
   };
@@ -20,9 +21,14 @@ export type ListItemProps = {
   isLast: boolean;
 };
 
+const parseCommaFloat = (n: string) => {
+  return parseFloat(n.replace(',', '.'));
+};
+
 const ListItem = memo(
   (props: ListItemProps) => {
     const {
+      activeInputRef,
       item,
       value = 0,
       setValues,
@@ -46,6 +52,10 @@ const ListItem = memo(
         });
 
         setIsNotAFirstRender(true);
+      }
+
+      if (activeInputRef && inputRef.current) {
+        activeInputRef.current = inputRef.current;
       }
     });
 
@@ -93,9 +103,11 @@ const ListItem = memo(
                 selectTextOnFocus
                 contextMenuHidden
                 keyboardType="numeric"
+                placeholderTextColor={tw.color('violet-400')}
+                inputAccessoryViewID={EDITING_INPUT_ACC_VIEW_ID}
                 style={tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
                 onChangeText={v => {
-                  setValues(item.code, parseFloat(v));
+                  setValues(item.code, parseCommaFloat(v));
                   valueRef.current = v;
                   setActiveCurrency(item.code);
 
@@ -106,10 +118,17 @@ const ListItem = memo(
                   });
                 }}
                 onFocus={() => {
-                  const currentText = value.toFixed(2);
+                  let currentText = value.toFixed(2);
+
+                  if (currentText.indexOf('.00') !== -1) {
+                    currentText = currentText.replace('.00', '');
+                  }
+
+                  setValues(item.code, parseCommaFloat(currentText), false);
 
                   inputRef.current?.setNativeProps({
-                    text: currentText,
+                    text:
+                      currentText === '0' ? '' : currentText.replace('.', ','),
                     style: { opacity: 1, zIndex: 1 },
                   });
 
@@ -151,7 +170,7 @@ const ListItem = memo(
 
                   if (initialValueRef.current !== v) {
                     setTimeout(
-                      () => setValues(item.code, parseFloat(v), true),
+                      () => setValues(item.code, parseCommaFloat(v), true),
                       500,
                     );
                   }

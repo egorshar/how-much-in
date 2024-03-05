@@ -3,7 +3,7 @@ const IS_DEV = process.env.APP_VARIANT === 'development';
 export default {
   name: IS_DEV ? 'How Much In (Dev)' : 'How Much In',
   slug: 'howmuchin',
-  version: '1.0.2',
+  version: '1.0.3',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -18,14 +18,14 @@ export default {
     bundleIdentifier: IS_DEV
       ? 'com.egorshar.howmuchin.dev'
       : 'com.egorshar.howmuchin',
-    buildNumber: '9',
+    buildNumber: '10',
   },
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
-    versionCode: 1,
+    versionCode: 2,
     jsEngine: 'hermes',
     package: IS_DEV ? 'com.egorshar.howmuchin.dev' : 'com.egorshar.howmuchin',
     softwareKeyboardLayoutMode: 'pan',
@@ -35,4 +35,5 @@ export default {
       projectId: 'b81bfa50-6a4b-47af-a5ca-ef20db0873be',
     },
   },
+  plugins: ['expo-font', 'expo-localization'],
 };

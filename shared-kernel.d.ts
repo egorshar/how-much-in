@@ -46,3 +46,5 @@ declare module '@assets/flags/flagsIndex' {
   const FLAGS: FlagsIconsInterface;
   export = FLAGS;
 }
+
+type AllowedMathOperation = 'plus' | 'minus' | 'multiply' | 'divide' | 'equal';

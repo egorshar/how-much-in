@@ -8,8 +8,8 @@ import {
 } from 'react';
 import {
   AppState,
-  Platform,
   RefreshControl,
+  TextInput,
   TouchableOpacity,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -32,12 +32,28 @@ import ListItemDraggable, {
 import MainFooter from '@ui/components/MainFooter/MainFooter';
 
 import { useStore } from '@services/store';
+import KeyboardCalculator from '@ui/components/KeyboardCalculator/KeyboardCalculator';
+import { EDITING_INPUT_ACC_VIEW_ID } from '@constants';
+
+const DO_MATH = {
+  plus: (x: number, y: number) => x + y,
+  minus: (x: number, y: number) => x - y,
+  multiply: (x: number, y: number) => x * y,
+  divide: (x: number, y: number) => x / y,
+};
 
 export default function MainScreen() {
   const store = useStore();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const locales = getLocales();
+
+  const activeTextInputRef = useRef<TextInput>(null);
+  const calcActiveRef = useRef<boolean>(false);
+  const memoizedValueToCalc = useRef<number>(0);
+  const memoizedLastInputValue = useRef<number>(0);
+  const memoizedLastCurrencyCode = useRef<string>('');
+  const memoizedLastOperation = useRef<'' | AllowedMathOperation>('');
 
   const appState = useRef(AppState.currentState);
   const valuesRef = useRef(store.values);
@@ -91,6 +107,13 @@ export default function MainScreen() {
 
   const onValueChange = useCallback(
     (code: CurrencyCode, v: number, fully?: boolean) => {
+      memoizedLastInputValue.current = v;
+      memoizedLastCurrencyCode.current = code;
+
+      if (calcActiveRef.current) {
+        return;
+      }
+
       const { rates } = store;
 
       if (!fully) {
@@ -128,6 +151,7 @@ export default function MainScreen() {
 
       return (
         <ListItem
+          activeInputRef={activeTextInputRef}
           item={item}
           value={store.values[item.code]}
           setValues={onValueChange}
@@ -157,6 +181,54 @@ export default function MainScreen() {
       );
     },
     [isEditing, renderItem],
+  );
+
+  const handleAdditionalKeyboardButton = useCallback(
+    (buttonType: AllowedMathOperation) => {
+      if (activeTextInputRef.current) {
+        calcActiveRef.current = buttonType !== 'equal';
+
+        if (
+          memoizedLastOperation.current &&
+          memoizedLastOperation.current !== 'equal' &&
+          (memoizedLastOperation.current !== 'divide' ||
+            memoizedLastInputValue.current > 0)
+        ) {
+          memoizedValueToCalc.current = DO_MATH[memoizedLastOperation.current](
+            memoizedValueToCalc.current,
+            memoizedLastInputValue.current,
+          );
+        }
+
+        if (buttonType === 'equal') {
+          memoizedLastOperation.current = '';
+
+          onValueChange(
+            memoizedLastCurrencyCode.current,
+            memoizedValueToCalc.current,
+            false,
+          );
+
+          setTimeout(() => {
+            activeTextInputRef.current?.setNativeProps({
+              text: memoizedValueToCalc.current.toString().replace('.', ','),
+              placeholder: '',
+            });
+          });
+        } else {
+          memoizedLastOperation.current = buttonType;
+          memoizedValueToCalc.current = memoizedLastInputValue.current;
+
+          activeTextInputRef.current.setNativeProps({
+            text: '',
+            placeholder: memoizedValueToCalc.current
+              .toString()
+              .replace('.', ','),
+          });
+        }
+      }
+    },
+    [],
   );
 
   useEffect(() => {
@@ -241,6 +313,11 @@ export default function MainScreen() {
         setEditing={setEditing}
         refreshing={refreshing || bottomRefreshing}
         refreshingMessage={refreshError}
+      />
+
+      <KeyboardCalculator
+        inputAccessoryViewID={EDITING_INPUT_ACC_VIEW_ID}
+        onPress={handleAdditionalKeyboardButton}
       />
     </GestureHandlerRootView>
   );

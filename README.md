@@ -20,13 +20,19 @@ Open Source currency converter app without ads
 # run once
 yarn install
 eas device:create
-eas build --profile development --platform ios
-eas build --profile development --platform android
+yarn dev:ios
+yarn dev:android
 
 # next time run only
 yarn start
 
 # scan qr-code and open dev-client
+```
+
+## Production build
+```sh
+yarn build:ios
+yarn build:anroid
 ```
 
 ## License
