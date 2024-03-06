@@ -25,8 +25,6 @@ yarn dev:android
 
 # next time run only
 yarn start
-
-# scan qr-code and open dev-client
 ```
 
 ## Production build
