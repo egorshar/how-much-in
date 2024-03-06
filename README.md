@@ -1,12 +1,14 @@
 # How Much In
 Open Source currency converter app without ads
 
-![49fe1813-d4be-46bb-b8c1-b904eee60b3b](https://github.com/egorshar/howmuchin/assets/286997/d404ee8a-b185-4034-8389-f0198a95f449)
-![65709ff2-b903-42ed-bc40-20de71fb798e](https://github.com/egorshar/howmuchin/assets/286997/9b2bbf78-8973-4313-80ce-d46dce584526)
-![44da62eb-d91e-4265-937c-14f9d208601c](https://github.com/egorshar/howmuchin/assets/286997/13caf13c-7054-4583-9013-2be152fb1db0)
+<img src="https://github.com/egorshar/howmuchin/assets/286997/b7d234f0-3852-4a13-a416-08e5e127a2f3" width="250" alt="Clean and simple" />
+<img src="https://github.com/egorshar/howmuchin/assets/286997/b7b46c78-1df3-4aea-a7d5-040a353abea2" width="250" alt="Offline support" />
+<img src="https://github.com/egorshar/howmuchin/assets/286997/70a0210c-3fb4-4789-b972-2b34a8193991" width="250" alt="No payments or ads" />
 
-[![App Store](https://github.com/egorshar/howmuchin/assets/286997/a07fa168-e7ae-4d73-8db5-f762e34120f1)](https://apps.apple.com/app/how-much-in/id6459408194)
-[![Google Play](https://github.com/egorshar/howmuchin/assets/286997/a19254b8-8da2-4523-ac2c-f8d3c57f5737)](https://play.google.com/store/apps/details?id=com.egorshar.howmuchin)
+## Dowload
+
+[<img src="https://github.com/egorshar/howmuchin/assets/286997/cd59c545-0197-43d7-b2ae-1b8326053051" width="150" alt="Apple AppStore" />](https://apps.apple.com/app/how-much-in/id6459408194)
+[<img src="https://github.com/egorshar/howmuchin/assets/286997/4eaa462b-7a1e-41a4-8385-12e9d51eef2c" width="150" alt="Google Play Store" />](https://play.google.com/store/apps/details?id=com.egorshar.howmuchin)
 
 ## Uses
 - React
