@@ -18,7 +18,7 @@ export default {
     bundleIdentifier: IS_DEV
       ? 'com.egorshar.howmuchin.dev'
       : 'com.egorshar.howmuchin',
-    buildNumber: '10',
+    buildNumber: '12',
   },
   android: {
     adaptiveIcon: {

@@ -17,6 +17,7 @@ import DraggableFlatList, {
   ScaleDecorator,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
+import { useIntl } from 'react-intl';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
@@ -45,6 +46,7 @@ const DO_MATH = {
 export default function MainScreen() {
   const store = useStore();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const intl = useIntl();
 
   const locales = getLocales();
 
@@ -107,8 +109,10 @@ export default function MainScreen() {
 
   const onValueChange = useCallback(
     (code: CurrencyCode, v: number, fully?: boolean) => {
-      memoizedLastInputValue.current = v;
-      memoizedLastCurrencyCode.current = code;
+      if (fully !== true) {
+        memoizedLastInputValue.current = v;
+        memoizedLastCurrencyCode.current = code;
+      }
 
       if (calcActiveRef.current) {
         return;
@@ -211,7 +215,10 @@ export default function MainScreen() {
 
           setTimeout(() => {
             activeTextInputRef.current?.setNativeProps({
-              text: memoizedValueToCalc.current.toString().replace('.', ','),
+              text: intl
+                .formatNumber(memoizedValueToCalc.current)
+                .toString()
+                .replace(/\s/g, ''),
               placeholder: '',
             });
           });
@@ -221,14 +228,14 @@ export default function MainScreen() {
 
           activeTextInputRef.current.setNativeProps({
             text: '',
-            placeholder: memoizedValueToCalc.current
-              .toString()
-              .replace('.', ','),
+            placeholder: intl
+              .formatNumber(memoizedValueToCalc.current)
+              .toString(),
           });
         }
       }
     },
-    [],
+    [onValueChange],
   );
 
   useEffect(() => {

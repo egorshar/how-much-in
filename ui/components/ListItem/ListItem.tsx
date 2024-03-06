@@ -53,10 +53,6 @@ const ListItem = memo(
 
         setIsNotAFirstRender(true);
       }
-
-      if (activeInputRef && inputRef.current) {
-        activeInputRef.current = inputRef.current;
-      }
     });
 
     return (
@@ -126,6 +122,7 @@ const ListItem = memo(
 
                   setValues(item.code, parseCommaFloat(currentText), false);
 
+                  activeInputRef.current = inputRef.current;
                   inputRef.current?.setNativeProps({
                     text:
                       currentText === '0' ? '' : currentText.replace('.', ','),
@@ -209,6 +206,7 @@ const ListItem = memo(
     return (
       oldProps.item.code === newProps.item.code &&
       oldProps.value === newProps.value &&
+      oldProps.activeCurrency === newProps.activeCurrency &&
       oldProps.setValues === newProps.setValues
     );
   },

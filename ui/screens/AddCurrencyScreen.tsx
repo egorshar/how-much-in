@@ -187,9 +187,20 @@ export default function AddCurrencyScreen() {
     [store.rates, store.values],
   );
 
-  const onPressAddingDone = useCallback(() => {
-    onAddingDone();
-  }, [onAddingDone]);
+  const onPressAddingDone = useCallback(
+    (fromSearch = false) => {
+      if (
+        fromSearch &&
+        JSON.stringify(selectedItems.current) ===
+          JSON.stringify(store.selectedCurrencies)
+      ) {
+        setSearchValue('');
+      } else {
+        onAddingDone();
+      }
+    },
+    [onAddingDone],
+  );
 
   useEffect(() => {
     return navigation.addListener('beforeRemove', () => {
@@ -206,21 +217,24 @@ export default function AddCurrencyScreen() {
         placeholder: intl.formatMessage({
           id: 'app.Search by country or currency',
         }),
-        cancelButtonText: intl.formatMessage({ id: 'app.Cancel' }),
-        onCancelButtonPress: () => setSearchValue(''),
+        cancelButtonText: intl.formatMessage({ id: 'app.Done' }),
+        onCancelButtonPress: () => onPressAddingDone(true),
         onChangeText: (e: NativeSyntheticEvent<TextInputChangeEventData>) =>
           setSearchValue(e.nativeEvent.text),
       },
       headerRight: () =>
         Platform.OS === 'ios' ? (
-          <TouchableOpacity style={tw`p-4 -m-4`} onPress={onPressAddingDone}>
+          <TouchableOpacity
+            style={tw`p-4 -m-4`}
+            onPress={() => onPressAddingDone()}
+          >
             <Text style={tw`font-sansSemiBold text-base`}>
               <FormattedMessage id="app.Done" />
             </Text>
           </TouchableOpacity>
         ) : null,
     });
-  }, [onAddingDone]);
+  }, [onPressAddingDone]);
 
   return (
     <GestureHandlerRootView style={tw`flex-1 bg-white`}>
