@@ -35,6 +35,10 @@ yarn build:ios
 yarn build:anroid
 ```
 
+## Data Source
+
+[Free Currency Exchange Rates API](https://github.com/fawazahmed0/exchange-api)
+
 ## License
 
 See the [LICENSE file](LICENSE.txt) for license rights and limitations.
