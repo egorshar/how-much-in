@@ -53,3 +53,8 @@ See the [LICENSE file](LICENSE.txt) for license rights and limitations.
 ## Author
 
 [Egor Sharapov](https://egor.sh)
+
+## Links
+
+[Product Hunt](https://www.producthunt.com/products/how-much-in)
+[Hacker News](https://news.ycombinator.com/item?id=39615431)
