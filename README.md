@@ -56,5 +56,5 @@ See the [LICENSE file](LICENSE.txt) for license rights and limitations.
 
 ## Links
 
-[Product Hunt](https://www.producthunt.com/products/how-much-in)
-[Hacker News](https://news.ycombinator.com/item?id=39615431)
+- [Product Hunt](https://www.producthunt.com/products/how-much-in)
+- [Hacker News](https://news.ycombinator.com/item?id=39615431)
