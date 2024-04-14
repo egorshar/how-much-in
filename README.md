@@ -39,7 +39,7 @@ yarn start
 ## Production build
 ```sh
 yarn build:ios
-yarn build:anroid
+yarn build:android
 ```
 
 ## Data Source
