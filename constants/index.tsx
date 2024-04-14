@@ -69,7 +69,7 @@ export const CURRENCIES: CurrenciesInterface = {
   HTG: 'HT',
   HUF: 'HU',
   IDR: 'ID',
-  ILS: 'PS',
+  ILS: 'IL',
   INR: 'IN',
   IQD: 'IQ',
   IRR: 'IR',

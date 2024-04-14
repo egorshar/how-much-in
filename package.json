@@ -1,6 +1,6 @@
 {
   "name": "how-much-in",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "node_modules/expo/AppEntry.js",
   "author": "egorshar (https://egor.sh)",
   "scripts": {
