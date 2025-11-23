@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
-import { ClassInput } from 'twrnc/dist/esm/types';
+import type { ClassInput } from 'twrnc';
 import tw from '@ui/tailwind';
 
 export type FormElementProps = {
