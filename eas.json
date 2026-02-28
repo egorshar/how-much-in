@@ -1,10 +1,12 @@
 {
   "cli": {
     "version": ">= 3.13.2",
+    "appVersionSource": "remote",
     "promptToConfigurePushNotifications": false
   },
   "build": {
     "development": {
+      "node": "22.11.0",
       "developmentClient": true,
       "distribution": "internal",
       "env": {
@@ -12,9 +14,12 @@
       }
     },
     "preview": {
+      "node": "22.11.0",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "node": "22.11.0"
+    }
   },
   "submit": {
     "production": {}

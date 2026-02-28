@@ -18,14 +18,15 @@ export default {
     bundleIdentifier: IS_DEV
       ? 'com.egorshar.howmuchin.dev'
       : 'com.egorshar.howmuchin',
-    buildNumber: '13',
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+    },
   },
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
-    versionCode: 3,
     jsEngine: 'hermes',
     package: IS_DEV ? 'com.egorshar.howmuchin.dev' : 'com.egorshar.howmuchin',
     softwareKeyboardLayoutMode: 'pan',
@@ -36,4 +37,7 @@ export default {
     },
   },
   plugins: ['expo-font', 'expo-localization'],
+  experiments: {
+    newArchEnabled: true,
+  },
 };
