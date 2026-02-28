@@ -20,7 +20,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@types/react": "~18.2.14",
     "axios": "^1.6.7",
-    "expo": "~50.0.20",
+    "expo": "55.0.4",
     "expo-dev-client": "~3.3.12",
     "expo-font": "~11.10.3",
     "expo-haptics": "~12.8.1",
