@@ -68,35 +68,36 @@ export const useStore = create(
                   currenciesKeys.indexOf(currency.code.toUpperCase()) > -1,
               );
 
-            const responses = await getRates(currencies);
-
-            const allValid = responses.every(
-              (r, i) => r && r[currencies[i].code],
+            const settled = await Promise.allSettled(
+              currencies.map(c => getRate(c.code)),
             );
-            if (!allValid) {
-              throw new Error('Incomplete rate data');
+
+            const newRates: CurrenciesStore['rates'] = {};
+
+            settled.forEach((res, i) => {
+              if (
+                res.status === 'fulfilled' &&
+                res.value &&
+                res.value[currencies[i].code]
+              ) {
+                newRates[currencies[i].code] = res.value[currencies[i].code];
+              }
+            });
+
+            if (Object.keys(newRates).length === 0) {
+              throw new Error('No rates available');
             }
 
-            let syncDate = 0;
-            const newRates = currencies.reduce(
-              (result: CurrenciesStore['rates'], item, index) => {
-                const ratesDate = new Date(responses[index].date).getTime();
-
-                if (syncDate < ratesDate) {
-                  syncDate = ratesDate;
-                }
-
-                result[item.code] = responses[index][item.code];
-
-                return result;
-              },
-              {},
-            );
+            const { selectedCurrencies } = get();
+            const missing = selectedCurrencies.filter(c => !newRates[c]);
+            if (missing.length > 0) {
+              throw new Error('Missing rates for active currencies');
+            }
 
             set({
               currencies,
               rates: newRates,
-              lastSync: syncDate || Date.now(),
+              lastSync: Date.now(),
             });
 
             return currencies;
