@@ -16,8 +16,8 @@ type KeyboardCalculatorProps = {
 function KeyboardCalculatorButton({
   type,
   icon,
-  iconStyle,
-  buttonStyle,
+  iconStyle = {},
+  buttonStyle = {},
   onPress,
 }: {
   type: AllowedMathOperation;
@@ -43,11 +43,6 @@ function KeyboardCalculatorButton({
     </TouchableOpacity>
   );
 }
-
-KeyboardCalculatorButton.defaultProps = {
-  iconStyle: {},
-  buttonStyle: {},
-};
 
 export default function KeyboardCalculator(props: KeyboardCalculatorProps) {
   const { inputAccessoryViewID, onPress } = props;

@@ -34,7 +34,7 @@ import MainFooter from '@ui/components/MainFooter/MainFooter';
 
 import { useStore } from '@services/store';
 import KeyboardCalculator from '@ui/components/KeyboardCalculator/KeyboardCalculator';
-import { EDITING_INPUT_ACC_VIEW_ID } from '@constants';
+import { EDITING_INPUT_ACC_VIEW_ID, IS_IOS26 } from '@constants';
 
 const DO_MATH = {
   plus: (x: number, y: number) => x + y,
@@ -270,7 +270,11 @@ export default function MainScreen() {
         headerRight: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate('AddCurrencyModal')}
-            style={tw`p-2 -m-2`}
+            style={
+              IS_IOS26
+                ? tw`w-8 h-8 rounded-full items-center justify-center`
+                : tw`p-2 -m-2`
+            }
           >
             <Ionicons
               name="add-outline"

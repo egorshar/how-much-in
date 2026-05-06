@@ -13,6 +13,7 @@ import { BlurView } from '@react-native-community/blur';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import tw from '@ui/tailwind';
 import { useCallback } from 'react';
+import { IS_IOS26 } from '@constants';
 
 type MainFooterProps = {
   isEditing: boolean;
@@ -72,12 +73,24 @@ export default function MainFooter({
       <View style={tw`flex-row items-center justify-center px-5 mt-3`}>
         {isEditing ? (
           <TouchableOpacity
-            style={tw`p-4 -m-4 ml-auto`}
+            style={
+              IS_IOS26
+                ? tw`w-8 h-8 rounded-full items-center justify-center ml-auto`
+                : tw`p-4 -m-4 ml-auto`
+            }
             onPress={() => setEditing(!isEditing)}
           >
-            <Text style={tw`font-sansSemiBold text-base`}>
-              <FormattedMessage id="app.Done" />
-            </Text>
+            {IS_IOS26 ? (
+              <Ionicons
+                name="checkmark-outline"
+                size={30}
+                color={tw.color('violet-700')}
+              />
+            ) : (
+              <Text style={tw`font-sansSemiBold text-base`}>
+                <FormattedMessage id="app.Done" />
+              </Text>
+            )}
           </TouchableOpacity>
         ) : (
           <>

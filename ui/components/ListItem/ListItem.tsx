@@ -1,6 +1,6 @@
 /* eslint-disable react/style-prop-object */
 
-import { memo, MutableRefObject, useEffect, useRef, useState } from 'react';
+import { memo, MutableRefObject, useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
@@ -38,22 +38,11 @@ const ListItem = memo(
       isLast,
     } = props;
 
-    const [isNotAFirstRender, setIsNotAFirstRender] = useState(false);
+    const [inputVisible, setInputVisible] = useState(false);
     const inputRef = useRef<TextInput>(null);
-    const rowRef = useRef<View>(null);
     const valueRef = useRef(value > 0 ? value.toString() : '');
     const initialValueRef = useRef('');
     const selectionRef = useRef<{ start?: number; end?: number }>({});
-
-    useEffect(() => {
-      if (rowRef.current && isNotAFirstRender) {
-        rowRef.current.setNativeProps({
-          style: { backgroundColor: 'white' },
-        });
-
-        setIsNotAFirstRender(true);
-      }
-    });
 
     return (
       <View
@@ -68,7 +57,6 @@ const ListItem = memo(
               backgroundColor: tw.color('violet-50'),
             },
           )}
-          ref={rowRef}
         >
           <View
             style={tw.style(
@@ -101,17 +89,14 @@ const ListItem = memo(
                 keyboardType="numeric"
                 placeholderTextColor={tw.color('violet-400')}
                 inputAccessoryViewID={EDITING_INPUT_ACC_VIEW_ID}
-                style={tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
+                style={tw.style(
+                  tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md z-10`,
+                  { opacity: inputVisible ? 1 : 0 },
+                )}
                 onChangeText={v => {
                   setValues(item.code, parseCommaFloat(v));
                   valueRef.current = v;
                   setActiveCurrency(item.code);
-
-                  setTimeout(() => {
-                    rowRef.current?.setNativeProps({
-                      style: { backgroundColor: tw.color('violet-50') },
-                    });
-                  });
                 }}
                 onFocus={() => {
                   let currentText = value.toFixed(2);
@@ -123,10 +108,10 @@ const ListItem = memo(
                   setValues(item.code, parseCommaFloat(currentText), false);
 
                   activeInputRef.current = inputRef.current;
+                  setInputVisible(true);
                   inputRef.current?.setNativeProps({
                     text:
                       currentText === '0' ? '' : currentText.replace('.', ','),
-                    style: { opacity: 1, zIndex: 1 },
                   });
 
                   setTimeout(() => {
@@ -158,9 +143,7 @@ const ListItem = memo(
                   }
                 }}
                 onBlur={() => {
-                  inputRef.current?.setNativeProps({
-                    style: { opacity: 0, zIndex: -1 },
-                  });
+                  setInputVisible(false);
                 }}
                 onEndEditing={e => {
                   const v = e.nativeEvent.text;
@@ -176,7 +159,7 @@ const ListItem = memo(
 
               <View
                 pointerEvents="none"
-                style={tw`absolute rounded-md bg-violet-200`}
+                style={tw`absolute top-0 left-0 rounded-md bg-violet-200`}
               >
                 <Text
                   style={tw`text-lg py-1 px-2 leading-tight font-sans text-violet-700`}

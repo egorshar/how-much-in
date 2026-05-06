@@ -10,7 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import { FormattedMessage, useIntl } from 'react-intl';
 import tw from '@ui/tailwind';
 
-import { APP_ID } from '@constants';
+import { APP_ID, IS_IOS26 } from '@constants';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import FormButton from '@ui/components/Form/Button';
 import FormText from '@ui/components/Form/Text';
@@ -27,14 +28,26 @@ export default function AddCurrencyScreen() {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            style={tw`p-4 -m-4`}
+            style={
+              IS_IOS26
+                ? tw`w-8 h-8 rounded-full items-center justify-center`
+                : tw`p-4 -m-4`
+            }
             onPress={() => {
               navigation.goBack();
             }}
           >
-            <Text style={tw`font-sansSemiBold text-base`}>
-              <FormattedMessage id="app.Close" />
-            </Text>
+            {IS_IOS26 ? (
+              <Ionicons
+                name="close-outline"
+                size={30}
+                color={tw.color('violet-600')}
+              />
+            ) : (
+              <Text style={tw`font-sansSemiBold text-base`}>
+                <FormattedMessage id="app.Close" />
+              </Text>
+            )}
           </TouchableOpacity>
         ),
       });
@@ -55,6 +68,7 @@ export default function AddCurrencyScreen() {
             id: 'app.about.Purposes info',
           }),
         ].join('\n\n')}
+        hasStaticHeight={false}
         isFirst
         isLast
       />

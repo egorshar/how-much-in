@@ -14,18 +14,16 @@ export type FormElementProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-function FormElement(props: FormElementProps) {
-  const {
-    children,
-    caption,
-    description,
-    hasStaticHeight,
-    isFirst,
-    isLast,
-    borderStyle,
-    style,
-  } = props;
-
+function FormElement({
+  children,
+  caption = '',
+  description = '',
+  hasStaticHeight,
+  isFirst = true,
+  isLast = true,
+  borderStyle = {},
+  style = {},
+}: FormElementProps) {
   return (
     <>
       {isFirst && caption && (
@@ -93,14 +91,5 @@ function FormElement(props: FormElementProps) {
     </>
   );
 }
-
-FormElement.defaultProps = {
-  caption: '',
-  description: '',
-  isFirst: true,
-  isLast: true,
-  borderStyle: {},
-  style: {},
-};
 
 export default FormElement;

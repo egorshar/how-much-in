@@ -1,7 +1,11 @@
+import { Platform } from 'react-native';
+
 export const ITEM_HEIGHT = 83;
 export const API_DOMAIN = 'https://api.how-much.in/';
 export const APP_ID = 6459408194;
 export const EDITING_INPUT_ACC_VIEW_ID = 'editin-input-acc-id';
+export const IS_IOS26 =
+  Platform.OS === 'ios' && parseInt(Platform.Version.toString(), 10) >= 26;
 export const CURRENCIES: CurrenciesInterface = {
   EUR: 'EU',
   AED: 'AE',

@@ -28,6 +28,7 @@
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "react/prop-types": 0,
+    "react/require-default-props": ["error", { "functions": "defaultArguments" }],
     "import/extensions": 0,
     "import/prefer-default-export": 0,
     "react/jsx-props-no-spreading": 0,

@@ -10,10 +10,14 @@ export type FormTextProps = Omit<FormElementProps, 'children'> & {
   textStyle?: ClassInput;
 };
 
-function FormText(props: FormTextProps) {
-  const { text, description, textStyle, hasStaticHeight, isFirst, isLast } =
-    props;
-
+function FormText({
+  text,
+  description,
+  textStyle = {},
+  hasStaticHeight = true,
+  isFirst,
+  isLast,
+}: FormTextProps) {
   return (
     <FormElement
       isFirst={isFirst}
@@ -27,10 +31,5 @@ function FormText(props: FormTextProps) {
     </FormElement>
   );
 }
-
-FormText.defaultProps = {
-  hasStaticHeight: true,
-  textStyle: {},
-};
 
 export default FormText;
