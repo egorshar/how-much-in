@@ -138,7 +138,7 @@ export default function MainFooter({
 
                   <Text
                     numberOfLines={1}
-                    style={tw`text-center text-black font-sansBold text-base`}
+                    style={tw`text-center text-slate-800 font-semibold text-base`}
                   >
                     {getRefreshingMessage()}
                   </Text>

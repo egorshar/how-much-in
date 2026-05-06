@@ -1,7 +1,14 @@
 /* eslint-disable react/style-prop-object */
 
 import { memo, MutableRefObject, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
 
@@ -66,7 +73,10 @@ const ListItem = memo(
         })}
       >
         <Pressable
-          onPress={() => inputRef.current?.focus()}
+          onPress={() => {
+            Keyboard.dismiss();
+            activeInputRef.current?.blur();
+          }}
           style={tw.style(
             tw`flex flex-row items-center px-5 bg-white h-[${ITEM_HEIGHT}px]`,
             activeCurrency === item.code && {
@@ -96,7 +106,7 @@ const ListItem = memo(
               />
             </Text>
 
-            <View>
+            <Pressable onPress={() => inputRef.current?.focus()}>
               <TextInput
                 ref={inputRef}
                 defaultValue={valueRef.current}
@@ -188,7 +198,7 @@ const ListItem = memo(
                   />
                 </Text>
               </View>
-            </View>
+            </Pressable>
           </View>
           <View
             style={tw.style(
