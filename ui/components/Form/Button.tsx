@@ -11,8 +11,13 @@ export type ButtonProps = PressableProps &
     icon?: ReactNode;
   };
 
-function Button(props: ButtonProps) {
-  const { icon, titleColor, title, onPress, ...formElementProps } = props;
+function Button({
+  icon = null,
+  titleColor = undefined,
+  title,
+  onPress,
+  ...formElementProps
+}: ButtonProps) {
   let pressedColor = '#e5e5ea';
 
   switch (true) {
@@ -56,10 +61,5 @@ function Button(props: ButtonProps) {
     </Pressable>
   );
 }
-
-Button.defaultProps = {
-  titleColor: undefined,
-  icon: null,
-};
 
 export default Button;

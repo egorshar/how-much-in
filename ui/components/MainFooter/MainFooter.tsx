@@ -10,9 +10,16 @@ import { FormattedDate, FormattedMessage } from 'react-intl';
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BlurView } from '@react-native-community/blur';
+import {
+  LiquidGlassContainerView,
+  LiquidGlassView,
+  isLiquidGlassSupported,
+} from '@callstack/liquid-glass';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import tw from '@ui/tailwind';
 import { useCallback } from 'react';
+import { IS_IOS26 } from '@constants';
 
 type MainFooterProps = {
   isEditing: boolean;
@@ -29,8 +36,8 @@ export default function MainFooter({
   refreshing,
   refreshingMessage,
 }: MainFooterProps) {
-  const WrapperView = Platform.OS === 'ios' ? BlurView : View;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const insets = useSafeAreaInsets();
 
   const getRefreshingMessage = useCallback(() => {
     switch (true) {
@@ -54,6 +61,117 @@ export default function MainFooter({
         );
     }
   }, [lastSync, refreshing, refreshingMessage]);
+
+  if (IS_IOS26) {
+    const fallbackTint = !isLiquidGlassSupported && {
+      backgroundColor: 'rgba(255,255,255,0.7)',
+    };
+
+    return (
+      <View
+        style={[
+          tw`absolute bottom-0 left-0 right-0 px-5`,
+          { paddingBottom: Math.max(insets.bottom, 12) },
+        ]}
+      >
+        <LiquidGlassContainerView
+          spacing={12}
+          style={tw`flex-row items-center justify-between`}
+        >
+          {isEditing ? (
+            <>
+              <View />
+              <View />
+              <LiquidGlassView
+                interactive
+                effect="regular"
+                style={[
+                  tw`w-11 h-11 rounded-full items-center justify-center`,
+                  fallbackTint,
+                ]}
+              >
+                <TouchableOpacity
+                  style={tw`w-11 h-11 rounded-full items-center justify-center`}
+                  onPress={() => setEditing(!isEditing)}
+                >
+                  <Ionicons
+                    name="checkmark-outline"
+                    size={28}
+                    color={tw.color('violet-600')}
+                  />
+                </TouchableOpacity>
+              </LiquidGlassView>
+            </>
+          ) : (
+            <>
+              <LiquidGlassView
+                interactive
+                effect="regular"
+                style={[
+                  tw`w-11 h-11 rounded-full items-center justify-center`,
+                  fallbackTint,
+                ]}
+              >
+                <TouchableOpacity
+                  style={tw`w-11 h-11 rounded-full items-center justify-center`}
+                  onPress={() => navigation.navigate('AboutModal')}
+                >
+                  <Ionicons
+                    name="help-buoy-outline"
+                    size={26}
+                    color={tw.color('violet-600')}
+                  />
+                </TouchableOpacity>
+              </LiquidGlassView>
+
+              <LiquidGlassView
+                effect="regular"
+                style={[
+                  tw`flex-1 mx-2 h-11 rounded-full items-center justify-center px-4`,
+                  fallbackTint,
+                ]}
+              >
+                <View style={tw`flex-row items-center justify-center`}>
+                  {refreshing && !refreshingMessage && (
+                    <ActivityIndicator style={tw`mr-2`} />
+                  )}
+
+                  <Text
+                    numberOfLines={1}
+                    style={tw`text-center text-slate-800 font-semibold text-base`}
+                  >
+                    {getRefreshingMessage()}
+                  </Text>
+                </View>
+              </LiquidGlassView>
+
+              <LiquidGlassView
+                interactive
+                effect="regular"
+                style={[
+                  tw`w-11 h-11 rounded-full items-center justify-center`,
+                  fallbackTint,
+                ]}
+              >
+                <TouchableOpacity
+                  style={tw`w-11 h-11 rounded-full items-center justify-center`}
+                  onPress={() => setEditing(!isEditing)}
+                >
+                  <Ionicons
+                    name="list-outline"
+                    size={26}
+                    color={tw.color('violet-600')}
+                  />
+                </TouchableOpacity>
+              </LiquidGlassView>
+            </>
+          )}
+        </LiquidGlassContainerView>
+      </View>
+    );
+  }
+
+  const WrapperView = Platform.OS === 'ios' ? BlurView : View;
 
   return (
     <WrapperView

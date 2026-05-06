@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import tw from '@ui/tailwind';
 
+import { IS_IOS26 } from '@constants';
 import AboutScreen from '@ui/screens/AboutScreen';
 import AddCurrencyScreen from '@ui/screens/AddCurrencyScreen';
 import MainScreen from '@ui/screens/Main';
@@ -20,10 +21,11 @@ function RootNavigator() {
         component={MainScreen}
         options={() => ({
           title: intl.formatMessage({ id: 'app.title' }),
-          headerTitleStyle: tw`font-sansBold`,
-          headerLargeTitle: Platform.OS === 'ios',
+          headerTitleStyle: tw`font-sansBold text-black`,
+          headerLargeTitleEnabled: Platform.OS === 'ios',
+          headerLargeTitleStyle: tw`font-sansBold text-black`,
           headerTransparent: Platform.OS === 'ios',
-          headerBlurEffect: 'regular',
+          headerBlurEffect: !IS_IOS26 ? 'regular' : undefined,
         })}
       />
 
@@ -33,7 +35,11 @@ function RootNavigator() {
           component={AboutScreen}
           options={() => ({
             title: intl.formatMessage({ id: 'app.About' }),
-            headerTitleStyle: tw`font-sansBold`,
+            headerTitleStyle: tw`font-sansBold text-black`,
+            headerLargeTitleEnabled: Platform.OS === 'ios',
+            headerLargeTitleStyle: tw`font-sansBold text-black`,
+            headerTransparent: Platform.OS === 'ios',
+            headerBlurEffect: !IS_IOS26 ? 'regular' : undefined,
           })}
         />
 
@@ -43,6 +49,7 @@ function RootNavigator() {
           options={() => ({
             title: intl.formatMessage({ id: 'app.Add currency' }),
             headerTitleStyle: tw`font-sansBold`,
+            headerTransparent: Platform.OS === 'ios' && IS_IOS26,
           })}
         />
       </Stack.Group>

@@ -8,6 +8,8 @@ import {
 } from 'react';
 import {
   AppState,
+  FlatList,
+  Keyboard,
   RefreshControl,
   TextInput,
   TouchableOpacity,
@@ -20,7 +22,6 @@ import DraggableFlatList, {
 import { useIntl } from 'react-intl';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getLocales } from 'expo-localization';
 import * as Haptics from 'expo-haptics';
@@ -34,7 +35,7 @@ import MainFooter from '@ui/components/MainFooter/MainFooter';
 
 import { useStore } from '@services/store';
 import KeyboardCalculator from '@ui/components/KeyboardCalculator/KeyboardCalculator';
-import { EDITING_INPUT_ACC_VIEW_ID } from '@constants';
+import { IS_IOS26 } from '@constants';
 
 const DO_MATH = {
   plus: (x: number, y: number) => x + y,
@@ -63,6 +64,20 @@ export default function MainScreen() {
   const [bottomRefreshing, setBottomRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState('');
   const [isEditing, setEditing] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener('keyboardWillShow', e =>
+      setKeyboardHeight(e.endCoordinates.height),
+    );
+    const hideSub = Keyboard.addListener('keyboardWillHide', () =>
+      setKeyboardHeight(0),
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   const data: ListItemProps['item'][] = useMemo(() => {
     if (!store.currencies.length) {
@@ -105,6 +120,11 @@ export default function MainScreen() {
         setBottomRefreshing(false);
       }, 1000);
     }
+  }, []);
+
+  const onInputFocus = useCallback((code: CurrencyCode, v: number) => {
+    memoizedLastInputValue.current = v;
+    memoizedLastCurrencyCode.current = code;
   }, []);
 
   const onValueChange = useCallback(
@@ -159,6 +179,7 @@ export default function MainScreen() {
           item={item}
           value={store.values[item.code]}
           setValues={onValueChange}
+          onInputFocus={onInputFocus}
           activeCurrency={store.activeCurrency}
           setActiveCurrency={store.setActiveCurrency}
           isFirst={item === data[0]}
@@ -166,7 +187,7 @@ export default function MainScreen() {
         />
       );
     },
-    [data, locales, onValueChange, store.values],
+    [data, locales, onValueChange, onInputFocus, store.values],
   );
 
   const renderItemEditingWrapped = useCallback(
@@ -214,12 +235,20 @@ export default function MainScreen() {
           );
 
           setTimeout(() => {
+            const resultText = intl
+              .formatNumber(memoizedValueToCalc.current, {
+                useGrouping: false,
+              })
+              .toString()
+              .replace(/\s/g, '');
+
             activeTextInputRef.current?.setNativeProps({
-              text: intl
-                .formatNumber(memoizedValueToCalc.current)
-                .toString()
-                .replace(/\s/g, ''),
+              text: resultText,
               placeholder: '',
+              selection: {
+                start: resultText.length,
+                end: resultText.length,
+              },
             });
           });
         } else {
@@ -229,7 +258,9 @@ export default function MainScreen() {
           activeTextInputRef.current.setNativeProps({
             text: '',
             placeholder: intl
-              .formatNumber(memoizedValueToCalc.current)
+              .formatNumber(memoizedValueToCalc.current, {
+                useGrouping: false,
+              })
               .toString(),
           });
         }
@@ -270,12 +301,16 @@ export default function MainScreen() {
         headerRight: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate('AddCurrencyModal')}
-            style={tw`p-2 -m-2`}
+            style={
+              IS_IOS26
+                ? tw`w-8 h-8 rounded-full items-center justify-center`
+                : tw`p-2 -m-2`
+            }
           >
             <Ionicons
               name="add-outline"
               size={30}
-              color={tw.color('slate-500')}
+              color={tw.color('violet-600')}
             />
           </TouchableOpacity>
         ),
@@ -301,7 +336,7 @@ export default function MainScreen() {
           contentInsetAdjustmentBehavior="automatic"
         />
       ) : (
-        <KeyboardAwareFlatList
+        <FlatList
           data={data}
           keyExtractor={item => item.code}
           refreshControl={
@@ -310,7 +345,13 @@ export default function MainScreen() {
           renderItem={renderItem}
           style={tw`bg-white h-full`}
           contentContainerStyle={{ paddingBottom: 82 }}
+          contentInset={{
+            bottom: keyboardHeight > 0 ? keyboardHeight + 80 : 0,
+          }}
           contentInsetAdjustmentBehavior="automatic"
+          automaticallyAdjustKeyboardInsets={false}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
         />
       )}
 
@@ -322,10 +363,7 @@ export default function MainScreen() {
         refreshingMessage={refreshError}
       />
 
-      <KeyboardCalculator
-        inputAccessoryViewID={EDITING_INPUT_ACC_VIEW_ID}
-        onPress={handleAdditionalKeyboardButton}
-      />
+      <KeyboardCalculator onPress={handleAdditionalKeyboardButton} />
     </GestureHandlerRootView>
   );
 }

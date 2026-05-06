@@ -10,14 +10,15 @@ import { useNavigation } from '@react-navigation/native';
 import { FormattedMessage, useIntl } from 'react-intl';
 import tw from '@ui/tailwind';
 
-import { APP_ID } from '@constants';
+import { APP_ID, IS_IOS26 } from '@constants';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import FormButton from '@ui/components/Form/Button';
 import FormText from '@ui/components/Form/Text';
 
 import { useStore } from '@services/store';
 
-export default function AddCurrencyScreen() {
+export default function AboutScreen() {
   const intl = useIntl();
   const navigation = useNavigation();
   const store = useStore();
@@ -27,14 +28,26 @@ export default function AddCurrencyScreen() {
       navigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            style={tw`p-4 -m-4`}
+            style={
+              IS_IOS26
+                ? tw`w-8 h-8 rounded-full items-center justify-center`
+                : tw`p-4 -m-4`
+            }
             onPress={() => {
               navigation.goBack();
             }}
           >
-            <Text style={tw`font-sansSemiBold text-base`}>
-              <FormattedMessage id="app.Close" />
-            </Text>
+            {IS_IOS26 ? (
+              <Ionicons
+                name="close-outline"
+                size={30}
+                color={tw.color('violet-600')}
+              />
+            ) : (
+              <Text style={tw`font-sansSemiBold text-base`}>
+                <FormattedMessage id="app.Close" />
+              </Text>
+            )}
           </TouchableOpacity>
         ),
       });
@@ -42,18 +55,17 @@ export default function AddCurrencyScreen() {
   }, []);
 
   return (
-    <ScrollView style={tw`py-5`}>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={tw`pb-10`}
+    >
       <FormText
         text={`${intl.formatMessage({
           id: 'app.about.Rates updated',
         })} ${intl.formatDate(new Date(store.lastSync))}`}
         description={[
-          intl.formatMessage({
-            id: 'app.about.Sources info',
-          }),
-          intl.formatMessage({
-            id: 'app.about.Purposes info',
-          }),
+          intl.formatMessage({ id: 'app.about.Sources info' }),
+          intl.formatMessage({ id: 'app.about.Purposes info' }),
         ].join('\n\n')}
         isFirst
         isLast
@@ -75,7 +87,7 @@ export default function AddCurrencyScreen() {
         title={intl.formatMessage({ id: 'app.about.Privacy' })}
         onPress={() => Linking.openURL(`https://www.how-much.in/privacy.html`)}
         isFirst
-        isLast={false}
+        isLast={Platform.OS !== 'ios'}
       />
       {Platform.OS === 'ios' && (
         <FormButton

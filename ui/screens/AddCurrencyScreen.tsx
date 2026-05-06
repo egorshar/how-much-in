@@ -19,11 +19,13 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import tw from '@ui/tailwind';
 
 import ListItemAdd from '@ui/components/ListItemAdd/ListItemAdd';
 
 import { useStore } from '@services/store';
+import { IS_IOS26 } from '@constants';
 
 type AddCurrencyItem = Omit<CurrencyItem, 'label'> & {
   key: CurrencyCode;
@@ -214,6 +216,7 @@ export default function AddCurrencyScreen() {
     navigation.setOptions({
       headerSearchBarOptions: {
         hideWhenScrolling: false,
+        obscureBackground: !IS_IOS26,
         placeholder: intl.formatMessage({
           id: 'app.Search by country or currency',
         }),
@@ -225,12 +228,24 @@ export default function AddCurrencyScreen() {
       headerRight: () =>
         Platform.OS === 'ios' ? (
           <TouchableOpacity
-            style={tw`p-4 -m-4`}
+            style={
+              IS_IOS26
+                ? tw`w-8 h-8 rounded-full items-center justify-center`
+                : tw`p-4 -m-4`
+            }
             onPress={() => onPressAddingDone()}
           >
-            <Text style={tw`font-sansSemiBold text-base`}>
-              <FormattedMessage id="app.Done" />
-            </Text>
+            {IS_IOS26 ? (
+              <Ionicons
+                name="checkmark-outline"
+                size={30}
+                color={tw.color('violet-600')}
+              />
+            ) : (
+              <Text style={tw`font-sansSemiBold text-base`}>
+                <FormattedMessage id="app.Done" />
+              </Text>
+            )}
           </TouchableOpacity>
         ) : null,
     });
@@ -244,7 +259,7 @@ export default function AddCurrencyScreen() {
         renderItem={renderItem}
         renderSectionHeader={renderHeader}
         contentInsetAdjustmentBehavior="automatic"
-        stickySectionHeadersEnabled
+        stickySectionHeadersEnabled={Platform.OS !== 'ios'}
         SectionSeparatorComponent={() => null}
         ItemSeparatorComponent={() => (
           <View

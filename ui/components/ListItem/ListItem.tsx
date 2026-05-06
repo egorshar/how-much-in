@@ -1,12 +1,19 @@
 /* eslint-disable react/style-prop-object */
 
-import { memo, MutableRefObject, useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { memo, MutableRefObject, useRef, useState } from 'react';
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
-import { EDITING_INPUT_ACC_VIEW_ID, ITEM_HEIGHT } from '@constants';
+import { ITEM_HEIGHT } from '@constants';
 
 export type ListItemProps = {
   activeInputRef: MutableRefObject<TextInput | null>;
@@ -15,14 +22,28 @@ export type ListItemProps = {
   };
   value: number;
   setValues: (code: CurrencyCode, v: number, fully?: boolean) => void;
+  onInputFocus: (code: CurrencyCode, v: number) => void;
   activeCurrency: CurrencyCode;
   setActiveCurrency: CurrenciesStore['setActiveCurrency'];
   isFirst: boolean;
   isLast: boolean;
 };
 
-const parseCommaFloat = (n: string) => {
-  return parseFloat(n.replace(',', '.'));
+const parseCommaFloat = (n: string): number => {
+  if (!n) return 0;
+
+  const lastDot = n.lastIndexOf('.');
+  const lastComma = n.lastIndexOf(',');
+  const decimalIdx = Math.max(lastDot, lastComma);
+
+  if (decimalIdx === -1) {
+    return parseFloat(n) || 0;
+  }
+
+  const integerPart = n.substring(0, decimalIdx).replace(/[.,\s]/g, '');
+  const fractionPart = n.substring(decimalIdx + 1);
+
+  return parseFloat(`${integerPart}.${fractionPart}`) || 0;
 };
 
 const ListItem = memo(
@@ -32,28 +53,18 @@ const ListItem = memo(
       item,
       value = 0,
       setValues,
+      onInputFocus,
       activeCurrency,
       setActiveCurrency,
       isFirst,
       isLast,
     } = props;
 
-    const [isNotAFirstRender, setIsNotAFirstRender] = useState(false);
+    const [inputVisible, setInputVisible] = useState(false);
     const inputRef = useRef<TextInput>(null);
-    const rowRef = useRef<View>(null);
     const valueRef = useRef(value > 0 ? value.toString() : '');
     const initialValueRef = useRef('');
     const selectionRef = useRef<{ start?: number; end?: number }>({});
-
-    useEffect(() => {
-      if (rowRef.current && isNotAFirstRender) {
-        rowRef.current.setNativeProps({
-          style: { backgroundColor: 'white' },
-        });
-
-        setIsNotAFirstRender(true);
-      }
-    });
 
     return (
       <View
@@ -61,14 +72,17 @@ const ListItem = memo(
           marginTop: -StyleSheet.hairlineWidth,
         })}
       >
-        <View
+        <Pressable
+          onPress={() => {
+            Keyboard.dismiss();
+            activeInputRef.current?.blur();
+          }}
           style={tw.style(
             tw`flex flex-row items-center px-5 bg-white h-[${ITEM_HEIGHT}px]`,
             activeCurrency === item.code && {
               backgroundColor: tw.color('violet-50'),
             },
           )}
-          ref={rowRef}
         >
           <View
             style={tw.style(
@@ -92,7 +106,7 @@ const ListItem = memo(
               />
             </Text>
 
-            <View>
+            <Pressable onPress={() => inputRef.current?.focus()}>
               <TextInput
                 ref={inputRef}
                 defaultValue={valueRef.current}
@@ -100,18 +114,14 @@ const ListItem = memo(
                 contextMenuHidden
                 keyboardType="numeric"
                 placeholderTextColor={tw.color('violet-400')}
-                inputAccessoryViewID={EDITING_INPUT_ACC_VIEW_ID}
-                style={tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md opacity-0`}
+                style={tw.style(
+                  tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md z-10`,
+                  { opacity: inputVisible ? 1 : 0 },
+                )}
                 onChangeText={v => {
                   setValues(item.code, parseCommaFloat(v));
                   valueRef.current = v;
                   setActiveCurrency(item.code);
-
-                  setTimeout(() => {
-                    rowRef.current?.setNativeProps({
-                      style: { backgroundColor: tw.color('violet-50') },
-                    });
-                  });
                 }}
                 onFocus={() => {
                   let currentText = value.toFixed(2);
@@ -120,13 +130,13 @@ const ListItem = memo(
                     currentText = currentText.replace('.00', '');
                   }
 
-                  setValues(item.code, parseCommaFloat(currentText), false);
+                  onInputFocus(item.code, parseCommaFloat(currentText));
 
                   activeInputRef.current = inputRef.current;
+                  setInputVisible(true);
                   inputRef.current?.setNativeProps({
                     text:
                       currentText === '0' ? '' : currentText.replace('.', ','),
-                    style: { opacity: 1, zIndex: 1 },
                   });
 
                   setTimeout(() => {
@@ -158,9 +168,7 @@ const ListItem = memo(
                   }
                 }}
                 onBlur={() => {
-                  inputRef.current?.setNativeProps({
-                    style: { opacity: 0, zIndex: -1 },
-                  });
+                  setInputVisible(false);
                 }}
                 onEndEditing={e => {
                   const v = e.nativeEvent.text;
@@ -175,8 +183,10 @@ const ListItem = memo(
               />
 
               <View
-                pointerEvents="none"
-                style={tw`absolute rounded-md bg-violet-200`}
+                style={tw.style(
+                  tw`absolute top-0 left-0 rounded-md bg-violet-200`,
+                  { pointerEvents: 'none' },
+                )}
               >
                 <Text
                   style={tw`text-lg py-1 px-2 leading-tight font-sans text-violet-700`}
@@ -188,7 +198,7 @@ const ListItem = memo(
                   />
                 </Text>
               </View>
-            </View>
+            </Pressable>
           </View>
           <View
             style={tw.style(
@@ -198,7 +208,7 @@ const ListItem = memo(
               },
             )}
           />
-        </View>
+        </Pressable>
       </View>
     );
   },

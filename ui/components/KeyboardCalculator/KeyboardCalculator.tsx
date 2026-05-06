@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import {
-  InputAccessoryView,
+  Keyboard,
+  KeyboardEvent,
   StyleProp,
   TouchableOpacity,
   View,
@@ -9,15 +11,14 @@ import tw from '@ui/tailwind';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 type KeyboardCalculatorProps = {
-  inputAccessoryViewID: string;
   onPress: (type: AllowedMathOperation) => void;
 };
 
 function KeyboardCalculatorButton({
   type,
   icon,
-  iconStyle,
-  buttonStyle,
+  iconStyle = {},
+  buttonStyle = {},
   onPress,
 }: {
   type: AllowedMathOperation;
@@ -44,17 +45,33 @@ function KeyboardCalculatorButton({
   );
 }
 
-KeyboardCalculatorButton.defaultProps = {
-  iconStyle: {},
-  buttonStyle: {},
-};
-
 export default function KeyboardCalculator(props: KeyboardCalculatorProps) {
-  const { inputAccessoryViewID, onPress } = props;
+  const { onPress } = props;
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      'keyboardWillShow',
+      (e: KeyboardEvent) => setKeyboardHeight(e.endCoordinates.height),
+    );
+    const hideSub = Keyboard.addListener('keyboardWillHide', () =>
+      setKeyboardHeight(0),
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  if (keyboardHeight === 0) {
+    return null;
+  }
+
   return (
-    <InputAccessoryView
-      nativeID={inputAccessoryViewID}
-      style={tw.style(`w-full`)}
+    <View
+      style={tw.style(`absolute left-0 right-0 bg-white`, {
+        bottom: keyboardHeight,
+      })}
     >
       <View style={tw`p-1.5`}>
         <View style={tw`flex-row bg-violet-50 rounded w-full p-2`}>
@@ -87,6 +104,6 @@ export default function KeyboardCalculator(props: KeyboardCalculatorProps) {
           />
         </View>
       </View>
-    </InputAccessoryView>
+    </View>
   );
 }

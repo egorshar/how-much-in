@@ -1,6 +1,8 @@
 import { memo, useRef } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import BouncyCheckbox, {
+  BouncyCheckboxHandle,
+} from 'react-native-bouncy-checkbox';
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
@@ -15,21 +17,21 @@ const ListItemAdd = memo(
   (props: ListItemAdd) => {
     const { item, isSelected, onCheckboxChange } = props;
 
-    const checkboxRef = useRef<BouncyCheckbox>(null);
+    const checkboxRef = useRef<BouncyCheckboxHandle>(null);
 
     return (
       <View style={tw`relative py-px bg-white`}>
         <TouchableOpacity
           style={tw`h-15 justify-center bg-white`}
           onPress={() => {
-            checkboxRef.current?.onPress();
+            checkboxRef.current?.onCheckboxPress();
           }}
         >
           <View style={tw`flex flex-row items-center px-4 bg-white`}>
             <BouncyCheckbox
               ref={checkboxRef}
               isChecked={isSelected}
-              textContainerStyle={tw`m-0`}
+              disableText
               innerIconStyle={tw`border-violet-700`}
               fillColor={tw.color('violet-700')}
               style={tw`mr-4`}

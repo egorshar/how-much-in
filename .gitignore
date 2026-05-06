@@ -5,8 +5,13 @@ node_modules/
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
+
+# Expo prebuild
+ios/
+android/
 
 # Native
 *.orig.*
@@ -14,6 +19,7 @@ web-build/
 *.p8
 *.p12
 *.key
+*.keystore
 *.mobileprovision
 
 # Metro
@@ -36,3 +42,4 @@ yarn-error.*
 
 #ide
 .idea
+.claude

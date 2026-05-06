@@ -15,15 +15,11 @@ const getTodayDate = () => {
 };
 
 const getRate = async (currency: CurrencyCode) => {
-  try {
-    const response = await axios(
-      `${API_DOMAIN}/currency-api@latest/v1/currencies/${currency}?${getTodayDate()}`,
-    );
+  const response = await axios(
+    `${API_DOMAIN}/currency-api@latest/v1/currencies/${currency}?${getTodayDate()}`,
+  );
 
-    return response.data;
-  } catch (e) {
-    return {};
-  }
+  return response.data;
 };
 
 const getRates = (currenciesData: CurrenciesStore['currencies']) => {
@@ -72,33 +68,37 @@ export const useStore = create(
                   currenciesKeys.indexOf(currency.code.toUpperCase()) > -1,
               );
 
-            set({ currencies, lastSync: Date.now() });
+            const settled = await Promise.allSettled(
+              currencies.map(c => getRate(c.code)),
+            );
 
-            const responses = await getRates(currencies);
-            let syncDate = 0;
+            const newRates: CurrenciesStore['rates'] = {};
 
-            set({
-              rates: currencies.reduce(
-                (result: CurrenciesStore['rates'], item, index) => {
-                  const ratesDate = new Date(responses[index].date).getTime();
-
-                  if (syncDate < ratesDate) {
-                    syncDate = ratesDate;
-                  }
-
-                  result[item.code] = responses[index][item.code];
-
-                  return result;
-                },
-                {},
-              ),
+            settled.forEach((res, i) => {
+              if (
+                res.status === 'fulfilled' &&
+                res.value &&
+                res.value[currencies[i].code]
+              ) {
+                newRates[currencies[i].code] = res.value[currencies[i].code];
+              }
             });
 
-            if (syncDate) {
-              set({
-                lastSync: new Date(syncDate).getTime(),
-              });
+            if (Object.keys(newRates).length === 0) {
+              throw new Error('No rates available');
             }
+
+            const { selectedCurrencies } = get();
+            const missing = selectedCurrencies.filter(c => !newRates[c]);
+            if (missing.length > 0) {
+              throw new Error('Missing rates for active currencies');
+            }
+
+            set({
+              currencies,
+              rates: newRates,
+              lastSync: Date.now(),
+            });
 
             return currencies;
           } catch (e) {
