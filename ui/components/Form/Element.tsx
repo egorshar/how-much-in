@@ -3,6 +3,8 @@ import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import { ClassInput } from 'twrnc/dist/esm/types';
 import tw from '@ui/tailwind';
 
+import { IS_IOS26 } from '@constants';
+
 export type FormElementProps = {
   children: ReactNode;
   caption?: string;
@@ -48,9 +50,13 @@ function FormElement({
           tw.style(
             'ios:bg-white ios:pl-4 ios:mx-5 ios:pr-1 ios:dark:bg-[#1C1C1E]',
             'android:px-4 relative android:bg-white',
-            hasStaticHeight && 'ios:h-11 android:h-14',
-            isFirst && 'ios:rounded-t-xl',
-            isLast && 'ios:rounded-b-xl mb-8',
+            hasStaticHeight &&
+              (IS_IOS26
+                ? 'ios:min-h-12 android:min-h-14'
+                : 'ios:min-h-11 android:min-h-14'),
+            isFirst && (IS_IOS26 ? 'ios:rounded-t-3xl' : 'ios:rounded-t-xl'),
+            isLast &&
+              (IS_IOS26 ? 'ios:rounded-b-3xl mb-8' : 'ios:rounded-b-xl mb-8'),
             isLast && description && 'mb-1.5',
           ),
           style,

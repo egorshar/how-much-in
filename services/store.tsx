@@ -15,15 +15,11 @@ const getTodayDate = () => {
 };
 
 const getRate = async (currency: CurrencyCode) => {
-  try {
-    const response = await axios(
-      `${API_DOMAIN}/currency-api@latest/v1/currencies/${currency}?${getTodayDate()}`,
-    );
+  const response = await axios(
+    `${API_DOMAIN}/currency-api@latest/v1/currencies/${currency}?${getTodayDate()}`,
+  );
 
-    return response.data;
-  } catch (e) {
-    return {};
-  }
+  return response.data;
 };
 
 const getRates = (currenciesData: CurrenciesStore['currencies']) => {
@@ -72,33 +68,36 @@ export const useStore = create(
                   currenciesKeys.indexOf(currency.code.toUpperCase()) > -1,
               );
 
-            set({ currencies, lastSync: Date.now() });
-
             const responses = await getRates(currencies);
+
+            const allValid = responses.every(
+              (r, i) => r && r[currencies[i].code],
+            );
+            if (!allValid) {
+              throw new Error('Incomplete rate data');
+            }
+
             let syncDate = 0;
+            const newRates = currencies.reduce(
+              (result: CurrenciesStore['rates'], item, index) => {
+                const ratesDate = new Date(responses[index].date).getTime();
+
+                if (syncDate < ratesDate) {
+                  syncDate = ratesDate;
+                }
+
+                result[item.code] = responses[index][item.code];
+
+                return result;
+              },
+              {},
+            );
 
             set({
-              rates: currencies.reduce(
-                (result: CurrenciesStore['rates'], item, index) => {
-                  const ratesDate = new Date(responses[index].date).getTime();
-
-                  if (syncDate < ratesDate) {
-                    syncDate = ratesDate;
-                  }
-
-                  result[item.code] = responses[index][item.code];
-
-                  return result;
-                },
-                {},
-              ),
+              currencies,
+              rates: newRates,
+              lastSync: syncDate || Date.now(),
             });
-
-            if (syncDate) {
-              set({
-                lastSync: new Date(syncDate).getTime(),
-              });
-            }
 
             return currencies;
           } catch (e) {

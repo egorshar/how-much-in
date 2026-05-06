@@ -18,7 +18,7 @@ import FormText from '@ui/components/Form/Text';
 
 import { useStore } from '@services/store';
 
-export default function AddCurrencyScreen() {
+export default function AboutScreen() {
   const intl = useIntl();
   const navigation = useNavigation();
   const store = useStore();
@@ -55,20 +55,18 @@ export default function AddCurrencyScreen() {
   }, []);
 
   return (
-    <ScrollView style={tw`py-5`}>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={tw`pb-10`}
+    >
       <FormText
         text={`${intl.formatMessage({
           id: 'app.about.Rates updated',
         })} ${intl.formatDate(new Date(store.lastSync))}`}
         description={[
-          intl.formatMessage({
-            id: 'app.about.Sources info',
-          }),
-          intl.formatMessage({
-            id: 'app.about.Purposes info',
-          }),
+          intl.formatMessage({ id: 'app.about.Sources info' }),
+          intl.formatMessage({ id: 'app.about.Purposes info' }),
         ].join('\n\n')}
-        hasStaticHeight={false}
         isFirst
         isLast
       />
@@ -89,7 +87,7 @@ export default function AddCurrencyScreen() {
         title={intl.formatMessage({ id: 'app.about.Privacy' })}
         onPress={() => Linking.openURL(`https://www.how-much.in/privacy.html`)}
         isFirst
-        isLast={false}
+        isLast={Platform.OS !== 'ios'}
       />
       {Platform.OS === 'ios' && (
         <FormButton

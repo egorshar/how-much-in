@@ -22,7 +22,7 @@ function RootNavigator() {
         options={() => ({
           title: intl.formatMessage({ id: 'app.title' }),
           headerTitleStyle: tw`font-sansBold text-black`,
-          headerLargeTitleEnabled: Platform.OS === 'ios' && !IS_IOS26,
+          headerLargeTitleEnabled: Platform.OS === 'ios',
           headerLargeTitleStyle: tw`font-sansBold text-black`,
           headerTransparent: Platform.OS === 'ios',
           headerBlurEffect: !IS_IOS26 ? 'regular' : undefined,
@@ -35,8 +35,11 @@ function RootNavigator() {
           component={AboutScreen}
           options={() => ({
             title: intl.formatMessage({ id: 'app.About' }),
-            headerTitleStyle: tw`font-sansBold`,
-            headerTransparent: Platform.OS === 'ios' && IS_IOS26,
+            headerTitleStyle: tw`font-sansBold text-black`,
+            headerLargeTitleEnabled: Platform.OS === 'ios',
+            headerLargeTitleStyle: tw`font-sansBold text-black`,
+            headerTransparent: Platform.OS === 'ios',
+            headerBlurEffect: !IS_IOS26 ? 'regular' : undefined,
           })}
         />
 

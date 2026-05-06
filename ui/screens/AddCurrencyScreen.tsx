@@ -259,7 +259,7 @@ export default function AddCurrencyScreen() {
         renderItem={renderItem}
         renderSectionHeader={renderHeader}
         contentInsetAdjustmentBehavior="automatic"
-        stickySectionHeadersEnabled
+        stickySectionHeadersEnabled={Platform.OS !== 'ios'}
         SectionSeparatorComponent={() => null}
         ItemSeparatorComponent={() => (
           <View

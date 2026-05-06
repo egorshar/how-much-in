@@ -25,8 +25,10 @@ function FormText({
       hasStaticHeight={hasStaticHeight}
       description={description}
     >
-      <View style={tw`h-full flex flex-row items-center`}>
-        <Text style={tw.style(tw`text-base font-sans`, textStyle)}>{text}</Text>
+      <View style={tw`flex flex-row flex-1 items-center`}>
+        <Text style={tw.style(tw`text-base font-sans flex-1`, textStyle)}>
+          {text}
+        </Text>
       </View>
     </FormElement>
   );
