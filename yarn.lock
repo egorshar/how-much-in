@@ -828,6 +828,11 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.28.5"
 
+"@callstack/liquid-glass@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.npmjs.org/@callstack/liquid-glass/-/liquid-glass-0.7.1.tgz#54a5d47d12dea52162bb00b4c8c6bdc6ae8ec3c0"
+  integrity sha512-N2rzs8g3kneI5G/98AZdVtjc6OUFBBFwPxVGVMoXUEI7QiioB4+aWwbImg5h8Z3Vb/T+fgLYWmmNhi27wHwE4g==
+
 "@d11/react-native-fast-image@8.13.0":
   version "8.13.0"
   resolved "https://registry.npmjs.org/@d11/react-native-fast-image/-/react-native-fast-image-8.13.0.tgz"
