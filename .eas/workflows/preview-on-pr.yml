@@ -1,0 +1,11 @@
+name: Preview build on PR
+on:
+  pull_request:
+    branches: ['main']
+jobs:
+  build_ios:
+    name: Preview iOS
+    type: build
+    params:
+      platform: ios
+      profile: preview
