@@ -15,10 +15,12 @@
     },
     "preview": {
       "node": "22.11.0",
-      "distribution": "internal"
+      "distribution": "internal",
+      "autoIncrement": true
     },
     "production": {
-      "node": "22.11.0"
+      "node": "22.11.0",
+      "autoIncrement": true
     }
   },
   "submit": {
