@@ -23,6 +23,7 @@ export type ListItemProps = {
   value: number;
   setValues: (code: CurrencyCode, v: number, fully?: boolean) => void;
   onInputFocus: (code: CurrencyCode, v: number) => void;
+  onInputBlur: () => void;
   activeCurrency: CurrencyCode;
   setActiveCurrency: CurrenciesStore['setActiveCurrency'];
   isFirst: boolean;
@@ -54,6 +55,7 @@ const ListItem = memo(
       value = 0,
       setValues,
       onInputFocus,
+      onInputBlur,
       activeCurrency,
       setActiveCurrency,
       isFirst,
@@ -110,7 +112,6 @@ const ListItem = memo(
               <TextInput
                 ref={inputRef}
                 defaultValue={valueRef.current}
-                selectTextOnFocus
                 contextMenuHidden
                 keyboardType="numeric"
                 placeholderTextColor={tw.color('violet-400')}
@@ -134,18 +135,16 @@ const ListItem = memo(
 
                   activeInputRef.current = inputRef.current;
                   setInputVisible(true);
-                  inputRef.current?.setNativeProps({
-                    text:
-                      currentText === '0' ? '' : currentText.replace('.', ','),
-                  });
 
-                  setTimeout(() => {
-                    inputRef.current?.setNativeProps({
-                      selection: {
-                        start: 0,
-                        end: currentText.length,
-                      },
-                    });
+                  const formattedText =
+                    currentText === '0' ? '' : currentText.replace('.', ',');
+
+                  inputRef.current?.setNativeProps({
+                    text: formattedText,
+                    selection: {
+                      start: 0,
+                      end: formattedText.length,
+                    },
                   });
 
                   valueRef.current = currentText;
@@ -169,6 +168,7 @@ const ListItem = memo(
                 }}
                 onBlur={() => {
                   setInputVisible(false);
+                  onInputBlur();
                 }}
                 onEndEditing={e => {
                   const v = e.nativeEvent.text;

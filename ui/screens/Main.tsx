@@ -127,6 +127,18 @@ export default function MainScreen() {
     memoizedLastCurrencyCode.current = code;
   }, []);
 
+  const handleAdditionalKeyboardButtonRef =
+    useRef<(buttonType: AllowedMathOperation) => void>(() => {});
+
+  const onInputBlur = useCallback(() => {
+    if (
+      memoizedLastOperation.current &&
+      memoizedLastOperation.current !== 'equal'
+    ) {
+      handleAdditionalKeyboardButtonRef.current('equal');
+    }
+  }, []);
+
   const onValueChange = useCallback(
     (code: CurrencyCode, v: number, fully?: boolean) => {
       if (fully !== true) {
@@ -180,6 +192,7 @@ export default function MainScreen() {
           value={store.values[item.code]}
           setValues={onValueChange}
           onInputFocus={onInputFocus}
+          onInputBlur={onInputBlur}
           activeCurrency={store.activeCurrency}
           setActiveCurrency={store.setActiveCurrency}
           isFirst={item === data[0]}
@@ -187,7 +200,7 @@ export default function MainScreen() {
         />
       );
     },
-    [data, locales, onValueChange, onInputFocus, store.values],
+    [data, locales, onValueChange, onInputFocus, onInputBlur, store.values],
   );
 
   const renderItemEditingWrapped = useCallback(
@@ -268,6 +281,10 @@ export default function MainScreen() {
     },
     [onValueChange],
   );
+
+  useEffect(() => {
+    handleAdditionalKeyboardButtonRef.current = handleAdditionalKeyboardButton;
+  }, [handleAdditionalKeyboardButton]);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
