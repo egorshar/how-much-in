@@ -31,7 +31,9 @@ function FormElement({
       {isFirst && caption && (
         <View
           style={tw.style(
-            `ios:bg-transparent ios:px-9 ios:mb-2.5`,
+            IS_IOS26
+              ? `ios:bg-transparent ios:px-8 ios:mb-2.5`
+              : `ios:bg-transparent ios:px-9 ios:mb-2.5`,
             `android:px-4 android:pt-2.5`,
           )}
         >
@@ -48,7 +50,9 @@ function FormElement({
       <View
         style={[
           tw.style(
-            'ios:bg-white ios:pl-4 ios:mx-5 ios:pr-1 ios:dark:bg-[#1C1C1E]',
+            IS_IOS26
+              ? 'ios:bg-white ios:pl-4 ios:mx-4 ios:pr-1 ios:dark:bg-[#1C1C1E]'
+              : 'ios:bg-white ios:pl-4 ios:mx-5 ios:pr-1 ios:dark:bg-[#1C1C1E]',
             'android:px-4 relative android:bg-white',
             hasStaticHeight &&
               (IS_IOS26
@@ -87,7 +91,7 @@ function FormElement({
         <Text
           style={tw.style(
             `mb-8 text-[#A29EAA] text-xs font-sans`,
-            `ios:mx-9`,
+            IS_IOS26 ? `ios:mx-8` : `ios:mx-9`,
             `android:mx-4`,
           )}
         >
