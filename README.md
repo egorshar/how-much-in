@@ -1,9 +1,9 @@
 # How Much In
 Open Source currency converter app without ads
 
-<img src="https://github.com/egorshar/howmuchin/assets/286997/b7d234f0-3852-4a13-a416-08e5e127a2f3" width="250" alt="Clean and simple" />
-<img src="https://github.com/egorshar/howmuchin/assets/286997/b7b46c78-1df3-4aea-a7d5-040a353abea2" width="250" alt="Offline support" />
-<img src="https://github.com/egorshar/howmuchin/assets/286997/70a0210c-3fb4-4789-b972-2b34a8193991" width="250" alt="No payments or ads" />
+<img src="https://github.com/user-attachments/assets/d4a415e9-6517-4ad6-b52a-b7dc9878bdcf" width="250" alt="Clean and simple" />
+<img src="https://github.com/user-attachments/assets/a94a3c83-36dd-428d-889f-d5cafdb6b619" width="250" alt="Offline support" />
+<img src="https://github.com/user-attachments/assets/0a61a5b4-b1a2-46b0-ab4d-8b2a0dbf929c" width="250" alt="No payments or ads" />
 
 ## Dowload
 
