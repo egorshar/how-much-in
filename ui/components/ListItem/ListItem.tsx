@@ -13,7 +13,7 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
-import { ITEM_HEIGHT } from '@constants';
+import { IS_IOS26, ITEM_HEIGHT } from '@constants';
 
 export type ListItemProps = {
   activeInputRef: MutableRefObject<TextInput | null>;
@@ -81,7 +81,9 @@ const ListItem = memo(
             activeInputRef.current?.blur();
           }}
           style={tw.style(
-            tw`flex flex-row items-center px-5 bg-white h-[${ITEM_HEIGHT}px]`,
+            IS_IOS26
+              ? tw`flex flex-row items-center px-4 bg-white h-[${ITEM_HEIGHT}px]`
+              : tw`flex flex-row items-center px-5 bg-white h-[${ITEM_HEIGHT}px]`,
             activeCurrency === item.code && {
               backgroundColor: tw.color('violet-50'),
             },
@@ -89,7 +91,9 @@ const ListItem = memo(
         >
           <View
             style={tw.style(
-              tw`absolute top-0 bg-slate-400 left-21 right-5 z-10`,
+              IS_IOS26
+                ? tw`absolute top-0 bg-slate-400 left-20 right-4 z-10`
+                : tw`absolute top-0 bg-slate-400 left-21 right-5 z-10`,
               !isFirst && {
                 height: StyleSheet.hairlineWidth,
               },
@@ -191,7 +195,9 @@ const ListItem = memo(
           </View>
           <View
             style={tw.style(
-              tw`absolute bottom-0 left-21 right-4 bg-slate-400`,
+              IS_IOS26
+                ? tw`absolute bottom-0 left-20 right-3 bg-slate-400`
+                : tw`absolute bottom-0 left-21 right-4 bg-slate-400`,
               !isLast && {
                 height: StyleSheet.hairlineWidth,
               },
