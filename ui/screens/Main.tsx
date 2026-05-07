@@ -129,14 +129,30 @@ export default function MainScreen() {
 
   const handleAdditionalKeyboardButtonRef =
     useRef<(buttonType: AllowedMathOperation) => void>(() => {});
+  const autoEqualsTriggered = useRef(false);
 
   const onInputBlur = useCallback(() => {
     if (
       memoizedLastOperation.current &&
       memoizedLastOperation.current !== 'equal'
     ) {
+      autoEqualsTriggered.current = true;
       handleAdditionalKeyboardButtonRef.current('equal');
     }
+  }, []);
+
+  const consumeAutoEqualsFlag = useCallback(() => {
+    if (autoEqualsTriggered.current) {
+      autoEqualsTriggered.current = false;
+      return true;
+    }
+    if (
+      memoizedLastOperation.current &&
+      memoizedLastOperation.current !== 'equal'
+    ) {
+      return true;
+    }
+    return false;
   }, []);
 
   const onValueChange = useCallback(
@@ -193,6 +209,7 @@ export default function MainScreen() {
           setValues={onValueChange}
           onInputFocus={onInputFocus}
           onInputBlur={onInputBlur}
+          consumeAutoEqualsFlag={consumeAutoEqualsFlag}
           activeCurrency={store.activeCurrency}
           setActiveCurrency={store.setActiveCurrency}
           isFirst={item === data[0]}
@@ -200,7 +217,15 @@ export default function MainScreen() {
         />
       );
     },
-    [data, locales, onValueChange, onInputFocus, onInputBlur, store.values],
+    [
+      data,
+      locales,
+      onValueChange,
+      onInputFocus,
+      onInputBlur,
+      consumeAutoEqualsFlag,
+      store.values,
+    ],
   );
 
   const renderItemEditingWrapped = useCallback(

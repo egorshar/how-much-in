@@ -24,6 +24,7 @@ export type ListItemProps = {
   setValues: (code: CurrencyCode, v: number, fully?: boolean) => void;
   onInputFocus: (code: CurrencyCode, v: number) => void;
   onInputBlur: () => void;
+  consumeAutoEqualsFlag: () => boolean;
   activeCurrency: CurrencyCode;
   setActiveCurrency: CurrenciesStore['setActiveCurrency'];
   isFirst: boolean;
@@ -56,6 +57,7 @@ const ListItem = memo(
       setValues,
       onInputFocus,
       onInputBlur,
+      consumeAutoEqualsFlag,
       activeCurrency,
       setActiveCurrency,
       isFirst,
@@ -66,7 +68,6 @@ const ListItem = memo(
     const inputRef = useRef<TextInput>(null);
     const valueRef = useRef(value > 0 ? value.toString() : '');
     const initialValueRef = useRef('');
-    const selectionRef = useRef<{ start?: number; end?: number }>({});
 
     return (
       <View
@@ -150,27 +151,15 @@ const ListItem = memo(
                   valueRef.current = currentText;
                   initialValueRef.current = currentText;
                 }}
-                onSelectionChange={e => {
-                  selectionRef.current = e.nativeEvent.selection;
-                }}
-                onPressIn={() => {
-                  if (
-                    selectionRef.current.start === 0 &&
-                    selectionRef.current.end === valueRef.current.length
-                  ) {
-                    inputRef.current?.setNativeProps({
-                      selection: {
-                        start: valueRef.current.length,
-                        end: valueRef.current.length,
-                      },
-                    });
-                  }
-                }}
                 onBlur={() => {
                   setInputVisible(false);
                   onInputBlur();
                 }}
                 onEndEditing={e => {
+                  if (consumeAutoEqualsFlag()) {
+                    return;
+                  }
+
                   const v = e.nativeEvent.text;
 
                   if (initialValueRef.current !== v) {
