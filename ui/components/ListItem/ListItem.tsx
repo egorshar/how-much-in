@@ -13,6 +13,7 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
+import { useStore } from '@services/store';
 import { IS_IOS26, ITEM_HEIGHT } from '@constants';
 
 export type ListItemProps = {
@@ -63,6 +64,9 @@ const ListItem = memo(
       isFirst,
       isLast,
     } = props;
+
+    // Subscribe to scheme changes so memoized rows re-evaluate dark variants.
+    useStore(s => s.colorScheme);
 
     const [inputVisible, setInputVisible] = useState(false);
     const inputRef = useRef<TextInput>(null);

@@ -1,9 +1,26 @@
 import axios from 'axios';
+import { Appearance } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { API_DOMAIN, CURRENCIES } from '@constants';
+import tw from '@ui/tailwind';
+
+// Sync twrnc's active scheme synchronously inside the store action so any
+// Zustand subscribers that re-render in response to the colorScheme change
+// see the new scheme — Effects run after render, which would be too late.
+// twrnc exposes setColorScheme at runtime (used internally by
+// useAppColorScheme) but doesn't surface it on the TailwindFn type.
+const setTwScheme = (tw as unknown as { setColorScheme: (s: 'light' | 'dark') => void }).setColorScheme;
+const syncTwScheme = (scheme: ColorScheme) => {
+  if (scheme === 'system') {
+    const sys = Appearance.getColorScheme();
+    setTwScheme(sys === 'dark' ? 'dark' : 'light');
+  } else {
+    setTwScheme(scheme);
+  }
+};
 
 const getTodayDate = () => {
   const today = new Date();
@@ -127,7 +144,10 @@ export const useStore = create(
         setValues: values => set({ values }),
 
         colorScheme: 'system',
-        setColorScheme: scheme => set({ colorScheme: scheme }),
+        setColorScheme: scheme => {
+          syncTwScheme(scheme);
+          set({ colorScheme: scheme });
+        },
       };
 
       return store;

@@ -380,6 +380,7 @@ export default function MainScreen() {
       {isEditing ? (
         <DraggableFlatList
           data={data}
+          extraData={store.colorScheme}
           keyExtractor={item => item.code}
           onDragEnd={({ data: sortedData }) => {
             store.setSelectedCurrencies(sortedData.map(item => item.code));
@@ -395,6 +396,7 @@ export default function MainScreen() {
       ) : (
         <FlatList
           data={data}
+          extraData={store.colorScheme}
           keyExtractor={item => item.code}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

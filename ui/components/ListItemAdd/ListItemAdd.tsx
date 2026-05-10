@@ -6,6 +6,7 @@ import BouncyCheckbox, {
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
+import { useStore } from '@services/store';
 
 type ListItemAdd = {
   item: any;
@@ -16,6 +17,9 @@ type ListItemAdd = {
 const ListItemAdd = memo(
   (props: ListItemAdd) => {
     const { item, isSelected, onCheckboxChange } = props;
+
+    // Subscribe to scheme changes so memoized rows re-evaluate dark variants.
+    useStore(s => s.colorScheme);
 
     const checkboxRef = useRef<BouncyCheckboxHandle>(null);
 

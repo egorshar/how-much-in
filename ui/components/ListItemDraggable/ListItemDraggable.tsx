@@ -17,6 +17,7 @@ import tw from '@ui/tailwind';
 
 import { ITEM_HEIGHT } from '@constants';
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
+import { useStore } from '@services/store';
 
 function UnderlayLeft(props: { onPress: () => void }) {
   const { onPress } = props;
@@ -47,6 +48,9 @@ export type ListItemDraggableProps = {
 const ListItemDraggable = memo(
   (props: ListItemDraggableProps) => {
     const { item, drag, isActive, deleteSelectedCurrency } = props;
+
+    // Subscribe to scheme changes so memoized rows re-evaluate dark variants.
+    useStore(s => s.colorScheme);
 
     const swipeItemRef = useRef<SwipeableItemImperativeRef>(null);
 
