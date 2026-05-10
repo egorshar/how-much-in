@@ -145,9 +145,7 @@ const ListItem = memo(
                       ? ''
                       : currentText.replace('.', ',');
 
-                  if (formattedText === '') {
-                    inputRef.current?.clear();
-                  }
+                  inputRef.current?.clear();
 
                   setTimeout(() => {
                     inputRef.current?.setNativeProps({
