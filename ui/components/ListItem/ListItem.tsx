@@ -117,6 +117,7 @@ const ListItem = memo(
               <TextInput
                 ref={inputRef}
                 contextMenuHidden
+                selectTextOnFocus
                 keyboardType="numeric"
                 placeholderTextColor={tw.color('violet-400')}
                 style={tw.style(
@@ -145,7 +146,9 @@ const ListItem = memo(
                       ? ''
                       : currentText.replace('.', ',');
 
-                  inputRef.current?.clear();
+                  if (formattedText === '') {
+                    inputRef.current?.clear();
+                  }
 
                   setTimeout(() => {
                     inputRef.current?.setNativeProps({
