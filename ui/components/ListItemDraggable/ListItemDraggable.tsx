@@ -64,14 +64,17 @@ const ListItemDraggable = memo(
           onLongPress={drag}
           onPress={() => swipeItemRef.current?.close()}
           disabled={isActive}
-          style={tw.style(tw`relative bg-white`, {
+          style={tw.style(tw`relative bg-white dark:bg-slate-800`, {
             marginTop: -StyleSheet.hairlineWidth,
           })}
         >
           <View
-            style={tw.style(tw`absolute top-0 bg-slate-400 left-31 right-5`, {
-              height: StyleSheet.hairlineWidth,
-            })}
+            style={tw.style(
+              tw`absolute top-0 bg-slate-400 dark:bg-slate-700 left-31 right-5`,
+              {
+                height: StyleSheet.hairlineWidth,
+              },
+            )}
           />
 
           <View style={tw`justify-center h-[${ITEM_HEIGHT}px]`}>
@@ -95,7 +98,7 @@ const ListItemDraggable = memo(
                 <Text
                   numberOfLines={1}
                   ellipsizeMode="tail"
-                  style={tw`text-base px-2 font-sansBold`}
+                  style={tw`text-base px-2 font-sansBold text-black dark:text-slate-100`}
                 >
                   <FormattedMessage
                     id={`currencies.prepositional.${item.code.toLowerCase()}`}
@@ -104,13 +107,17 @@ const ListItemDraggable = memo(
                 </Text>
               </View>
 
-              <Ionicons name="menu-outline" size={20} />
+              <Ionicons
+                name="menu-outline"
+                size={20}
+                color={tw.color('black dark:slate-100')}
+              />
             </View>
           </View>
 
           <View
             style={tw.style(
-              tw`absolute bottom-0 bg-slate-400 left-31 right-5`,
+              tw`absolute bottom-0 bg-slate-400 dark:bg-slate-700 left-31 right-5`,
               {
                 height: StyleSheet.hairlineWidth,
               },
