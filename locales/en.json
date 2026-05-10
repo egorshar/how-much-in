@@ -18,6 +18,6 @@
   "app.about.GitHub repo": "GitHub repo",
   "app.about.No responsibility message": "Application developers doesn't responsible for any errors or exchange rates delays and for actions based on this app data",
   "app.about.Feedback description": "Please use this button to contact us with bugreports, ideas or new features",
-  "app.about.Sources info": "Exchange rates come from fawazahmed0/exchange-api, an <link>open-source project on GitHub</link>, updated once a day",
+  "app.about.Sources info": "Exchange rates come from an <link>open-source project on GitHub</link>, updated once a day",
   "app.about.Purposes info": "Application is designed for personal use only and is not intended to be used as a professional financial instrument"
 }
