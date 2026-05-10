@@ -4,7 +4,10 @@ import tw from '@ui/tailwind';
 
 import FormElement, { FormElementProps } from './Element';
 
-export type FormTextProps = Omit<FormElementProps, 'children'> & {
+export type FormTextProps = Omit<
+  FormElementProps,
+  'children' | 'hasStaticHeight'
+> & {
   text: string;
   hasStaticHeight?: boolean;
   textStyle?: ClassInput;
