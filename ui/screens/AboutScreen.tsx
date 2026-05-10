@@ -44,7 +44,9 @@ export default function AboutScreen() {
               <Ionicons
                 name="close-outline"
                 size={30}
-                color={tw.color('violet-600 dark:violet-400')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                )}
               />
             ) : (
               <Text style={tw`font-sansSemiBold text-base`}>
@@ -62,8 +64,41 @@ export default function AboutScreen() {
       contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={tw`pb-10`}
     >
+      <FormText
+        text={`${intl.formatMessage({
+          id: 'app.about.Rates updated',
+        })} ${intl.formatDate(new Date(store.lastSync))}`}
+        description={
+          <>
+            {Children.toArray(
+              intl.formatMessage(
+                { id: 'app.about.Sources info' },
+                {
+                  link: chunks => (
+                    <Text
+                      style={tw`text-violet-600 dark:text-violet-400`}
+                      onPress={() =>
+                        Linking.openURL(
+                          'https://github.com/fawazahmed0/exchange-api',
+                        )
+                      }
+                    >
+                      {Children.toArray(chunks)}
+                    </Text>
+                  ),
+                },
+              ),
+            )}
+            {'\n\n'}
+            {intl.formatMessage({ id: 'app.about.Purposes info' })}
+          </>
+        }
+        isFirst
+        isLast
+      />
+
       <FormElement isFirst isLast hasStaticHeight={false}>
-        <View style={tw`flex-1 py-3`}>
+        <View style={tw`flex-1 py-3 pr-3`}>
           <Text
             style={tw`text-base font-sans text-black dark:text-slate-100 mb-2`}
           >
@@ -89,39 +124,6 @@ export default function AboutScreen() {
           />
         </View>
       </FormElement>
-
-      <FormText
-        text={`${intl.formatMessage({
-          id: 'app.about.Rates updated',
-        })} ${intl.formatDate(new Date(store.lastSync))}`}
-        description={
-          <>
-            {Children.toArray(
-              intl.formatMessage(
-                { id: 'app.about.Sources info' },
-                {
-                  link: chunks => (
-                    <Text
-                      style={tw`text-violet-600 dark:text-violet-400`}
-                      onPress={() =>
-                        Linking.openURL(
-                          'https://github.com/fawazahmed0/exchange-api',
-                        )
-                      }
-                    >
-                      {chunks}
-                    </Text>
-                  ),
-                },
-              ),
-            )}
-            {'\n\n'}
-            {intl.formatMessage({ id: 'app.about.Purposes info' })}
-          </>
-        }
-        isFirst
-        isLast
-      />
 
       <FormButton
         title={intl.formatMessage({ id: 'app.about.Feedback' })}
