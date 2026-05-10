@@ -68,7 +68,6 @@ const ListItem = memo(
     const inputRef = useRef<TextInput>(null);
     const valueRef = useRef(value > 0 ? value.toString() : '');
     const initialValueRef = useRef('');
-    const pendingSelectAllRef = useRef(false);
 
     return (
       <View
@@ -117,6 +116,7 @@ const ListItem = memo(
             <Pressable onPress={() => inputRef.current?.focus()}>
               <TextInput
                 ref={inputRef}
+                defaultValue={valueRef.current}
                 contextMenuHidden
                 keyboardType="numeric"
                 placeholderTextColor={tw.color('violet-400')}
@@ -141,10 +141,12 @@ const ListItem = memo(
                   activeInputRef.current = inputRef.current;
                   setInputVisible(true);
 
-                  const formattedText =
-                    parseCommaFloat(currentText) === 0
-                      ? ''
-                      : currentText.replace('.', ',');
+                  let formattedText =
+                    currentText === '0' ? '' : currentText.replace('.', ',');
+
+                  if (formattedText && parseCommaFloat(formattedText) === 0) {
+                    formattedText = '';
+                  }
 
                   inputRef.current?.setNativeProps({
                     text: formattedText,
@@ -155,19 +157,8 @@ const ListItem = memo(
                     },
                   });
 
-                  valueRef.current = formattedText;
-                  initialValueRef.current = formattedText;
-                  pendingSelectAllRef.current = formattedText.length > 0;
-                }}
-                onSelectionChange={() => {
-                  if (!pendingSelectAllRef.current) return;
-                  pendingSelectAllRef.current = false;
-                  const len = initialValueRef.current.length;
-                  setTimeout(() => {
-                    inputRef.current?.setNativeProps({
-                      selection: { start: 0, end: len },
-                    });
-                  }, 0);
+                  valueRef.current = currentText;
+                  initialValueRef.current = currentText;
                 }}
                 onBlur={() => {
                   setInputVisible(false);
@@ -189,11 +180,10 @@ const ListItem = memo(
                 }}
               />
 
-              <Pressable
-                onPress={() => inputRef.current?.focus()}
+              <View
                 style={tw.style(
                   tw`absolute top-0 left-0 rounded-md bg-violet-200`,
-                  { pointerEvents: inputVisible ? 'none' : 'auto' },
+                  { pointerEvents: 'none' },
                 )}
               >
                 <Text
@@ -205,7 +195,7 @@ const ListItem = memo(
                     currency={item.code.toUpperCase()}
                   />
                 </Text>
-              </Pressable>
+              </View>
             </Pressable>
           </View>
           <View
