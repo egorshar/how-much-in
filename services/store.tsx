@@ -125,6 +125,9 @@ export const useStore = create(
 
         values: {},
         setValues: values => set({ values }),
+
+        colorScheme: 'system',
+        setColorScheme: scheme => set({ colorScheme: scheme }),
       };
 
       return store;

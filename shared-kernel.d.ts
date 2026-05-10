@@ -1,5 +1,7 @@
 type CurrencyCode = string;
 
+type ColorScheme = 'system' | 'light' | 'dark';
+
 type CurrencyItem = {
   code: CurrencyCode;
   label: string;
@@ -32,6 +34,9 @@ interface CurrenciesStore {
 
   values: CurrenciesValues;
   setValues: (values: CurrenciesValues) => void;
+
+  colorScheme: ColorScheme;
+  setColorScheme: (scheme: ColorScheme) => void;
 }
 
 interface CurrenciesInterface {
