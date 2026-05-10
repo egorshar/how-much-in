@@ -367,7 +367,7 @@ export default function MainScreen() {
             <Ionicons
               name="add-outline"
               size={30}
-              color={tw.color('violet-600')}
+              color={tw.color('violet-600 dark:violet-400')}
             />
           </TouchableOpacity>
         ),
@@ -388,7 +388,7 @@ export default function MainScreen() {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
           }
           renderItem={renderItemEditingWrapped}
-          style={tw`bg-white h-full`}
+          style={tw`bg-white dark:bg-slate-900 h-full`}
           contentContainerStyle={{ paddingBottom: 82 }}
           contentInsetAdjustmentBehavior="automatic"
         />
@@ -400,7 +400,7 @@ export default function MainScreen() {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           renderItem={renderItem}
-          style={tw`bg-white h-full`}
+          style={tw`bg-white dark:bg-slate-900 h-full`}
           contentContainerStyle={{ paddingBottom: 82 }}
           contentInset={{
             bottom: keyboardHeight > 0 ? keyboardHeight + 80 : 0,
