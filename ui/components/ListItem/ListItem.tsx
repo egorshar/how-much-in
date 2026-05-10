@@ -146,6 +146,7 @@ const ListItem = memo(
 
                   inputRef.current?.setNativeProps({
                     text: formattedText,
+                    placeholder: '',
                     selection: {
                       start: 0,
                       end: formattedText.length,

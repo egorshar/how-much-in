@@ -264,27 +264,29 @@ export default function MainScreen() {
         }
 
         if (buttonType === 'equal') {
-          memoizedLastOperation.current = '';
+          const finalValue = memoizedLastOperation.current
+            ? memoizedValueToCalc.current
+            : memoizedLastInputValue.current;
 
-          onValueChange(
-            memoizedLastCurrencyCode.current,
-            memoizedValueToCalc.current,
-            false,
-          );
+          memoizedLastOperation.current = '';
+          memoizedValueToCalc.current = 0;
+
+          onValueChange(memoizedLastCurrencyCode.current, finalValue, false);
 
           setTimeout(() => {
-            const resultText = intl
-              .formatNumber(memoizedValueToCalc.current, {
-                useGrouping: false,
-              })
-              .toString()
-              .replace(/\s/g, '');
+            const resultText =
+              finalValue === 0
+                ? ''
+                : intl
+                    .formatNumber(finalValue, { useGrouping: false })
+                    .toString()
+                    .replace(/\s/g, '');
 
             activeTextInputRef.current?.setNativeProps({
               text: resultText,
               placeholder: '',
               selection: {
-                start: resultText.length,
+                start: 0,
                 end: resultText.length,
               },
             });
