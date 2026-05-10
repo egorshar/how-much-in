@@ -53,7 +53,7 @@ function Button({
             <Text
               style={tw.style(
                 tw`text-base font-sans text-black dark:text-slate-100`,
-                { color: titleColor },
+                titleColor ? { color: titleColor } : null,
               )}
             >
               {title}

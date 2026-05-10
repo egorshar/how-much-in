@@ -250,7 +250,9 @@ export default function AddCurrencyScreen() {
               <Ionicons
                 name="checkmark-outline"
                 size={30}
-                color={tw.color('violet-600 dark:violet-400')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                )}
               />
             ) : (
               <Text style={tw`font-sansSemiBold text-base`}>

@@ -99,7 +99,9 @@ export default function MainFooter({
                   <Ionicons
                     name="checkmark-outline"
                     size={28}
-                    color={tw.color('violet-600 dark:violet-400')}
+                    color={tw.color(
+                    tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                  )}
                   />
                 </TouchableOpacity>
               </LiquidGlassView>
@@ -121,7 +123,9 @@ export default function MainFooter({
                   <Ionicons
                     name="help-buoy-outline"
                     size={26}
-                    color={tw.color('violet-600 dark:violet-400')}
+                    color={tw.color(
+                    tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                  )}
                   />
                 </TouchableOpacity>
               </LiquidGlassView>
@@ -162,7 +166,9 @@ export default function MainFooter({
                   <Ionicons
                     name="list-outline"
                     size={26}
-                    color={tw.color('violet-600 dark:violet-400')}
+                    color={tw.color(
+                    tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                  )}
                   />
                 </TouchableOpacity>
               </LiquidGlassView>
@@ -210,7 +216,9 @@ export default function MainFooter({
               <Ionicons
                 name="information-circle-outline"
                 size={25}
-                color={tw.color('slate-500 dark:slate-400')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'slate-400' : 'slate-500',
+                )}
               />
             </TouchableOpacity>
 
@@ -233,7 +241,9 @@ export default function MainFooter({
               <Ionicons
                 name="list-outline"
                 size={25}
-                color={tw.color('slate-500 dark:slate-400')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'slate-400' : 'slate-500',
+                )}
               />
             </TouchableOpacity>
           </>

@@ -72,15 +72,13 @@ function FormElement({
           <View
             style={tw.style(
               'absolute bottom-0 left-4 right-0',
-              'ios:bg-[#ECEEF5] ios:dark:bg-[#38383A] ios:-mr-1',
-              'android:bg-[#ECEEF5] android:dark:bg-[#38383A] android:right-4',
-              isLast && 'ios:bg-transparent',
+              !isLast && 'ios:bg-[#ECEEF5] ios:dark:bg-[#38383A]',
+              !isLast &&
+                'android:bg-[#ECEEF5] android:dark:bg-[#38383A] android:right-4',
               isLast &&
                 'android:left-0 android:right-0 android:h-1.5 android:bg-[rgba(0,0,0,0.1)] android:dark:bg-[rgba(255,255,255,0.08)]',
-              {
-                zIndex: 1,
-                height: 1,
-              },
+              !isLast && { height: 1 },
+              { zIndex: 1 },
               borderStyle,
             )}
           />

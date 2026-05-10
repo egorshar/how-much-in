@@ -68,7 +68,7 @@ const ListItemDraggable = memo(
           onLongPress={drag}
           onPress={() => swipeItemRef.current?.close()}
           disabled={isActive}
-          style={tw.style(tw`relative bg-white dark:bg-slate-800`, {
+          style={tw.style(tw`relative bg-white dark:bg-transparent`, {
             marginTop: -StyleSheet.hairlineWidth,
           })}
         >
@@ -114,7 +114,9 @@ const ListItemDraggable = memo(
               <Ionicons
                 name="menu-outline"
                 size={20}
-                color={tw.color('black dark:slate-100')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'slate-100' : 'black',
+                )}
               />
             </View>
           </View>

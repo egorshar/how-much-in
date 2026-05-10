@@ -39,7 +39,9 @@ const ListItemAdd = memo(
               isChecked={isSelected}
               disableText
               innerIconStyle={tw`border-violet-700 dark:border-violet-300`}
-              fillColor={tw.color('violet-700 dark:violet-300')}
+              fillColor={tw.color(
+                tw.prefixMatch('dark') ? 'violet-300' : 'violet-700',
+              )}
               style={tw`mr-4`}
               onPress={isChecked => {
                 onCheckboxChange(item.code, isChecked);

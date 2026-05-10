@@ -86,10 +86,12 @@ const ListItem = memo(
           }}
           style={tw.style(
             IS_IOS26
-              ? tw`flex flex-row items-center px-4 bg-white dark:bg-slate-800 h-[${ITEM_HEIGHT}px]`
-              : tw`flex flex-row items-center px-5 bg-white dark:bg-slate-800 h-[${ITEM_HEIGHT}px]`,
+              ? tw`flex flex-row items-center px-4 bg-white dark:bg-transparent h-[${ITEM_HEIGHT}px]`
+              : tw`flex flex-row items-center px-5 bg-white dark:bg-transparent h-[${ITEM_HEIGHT}px]`,
             activeCurrency === item.code && {
-              backgroundColor: tw.color('violet-50 dark:violet-950'),
+              backgroundColor: tw.color(
+                tw.prefixMatch('dark') ? 'slate-800' : 'violet-50',
+              ),
             },
           )}
         >
@@ -123,7 +125,9 @@ const ListItem = memo(
                 defaultValue={valueRef.current}
                 contextMenuHidden
                 keyboardType="numeric"
-                placeholderTextColor={tw.color('violet-400 dark:violet-700')}
+                placeholderTextColor={tw.color(
+                  tw.prefixMatch('dark') ? 'violet-700' : 'violet-400',
+                )}
                 style={tw.style(
                   tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 dark:bg-violet-800 text-violet-900 dark:text-violet-100 rounded-md z-10`,
                   { opacity: inputVisible ? 1 : 0 },

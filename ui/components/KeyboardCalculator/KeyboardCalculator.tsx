@@ -38,7 +38,9 @@ function KeyboardCalculatorButton({
       <Ionicons
         name={icon}
         size={30}
-        color={tw.color('violet-900 dark:violet-200')}
+        color={tw.color(
+          tw.prefixMatch('dark') ? 'violet-200' : 'violet-900',
+        )}
         style={iconStyle}
       />
     </TouchableOpacity>
