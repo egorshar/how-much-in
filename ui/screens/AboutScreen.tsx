@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -15,6 +16,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import FormButton from '@ui/components/Form/Button';
 import FormText from '@ui/components/Form/Text';
+import FormElement from '@ui/components/Form/Element';
+import SegmentedControl from '@ui/components/Form/SegmentedControl';
 
 import { useStore } from '@services/store';
 
@@ -59,6 +62,34 @@ export default function AboutScreen() {
       contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={tw`pb-10`}
     >
+      <FormElement isFirst isLast hasStaticHeight={false}>
+        <View style={tw`flex-1 py-3`}>
+          <Text
+            style={tw`text-base font-sans text-black dark:text-slate-100 mb-2`}
+          >
+            {intl.formatMessage({ id: 'app.about.Appearance' })}
+          </Text>
+          <SegmentedControl<ColorScheme>
+            value={store.colorScheme}
+            onChange={store.setColorScheme}
+            options={[
+              {
+                value: 'system',
+                label: intl.formatMessage({ id: 'app.about.theme.System' }),
+              },
+              {
+                value: 'light',
+                label: intl.formatMessage({ id: 'app.about.theme.Light' }),
+              },
+              {
+                value: 'dark',
+                label: intl.formatMessage({ id: 'app.about.theme.Dark' }),
+              },
+            ]}
+          />
+        </View>
+      </FormElement>
+
       <FormText
         text={`${intl.formatMessage({
           id: 'app.about.Rates updated',
