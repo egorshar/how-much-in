@@ -116,7 +116,6 @@ const ListItem = memo(
             <Pressable onPress={() => inputRef.current?.focus()}>
               <TextInput
                 ref={inputRef}
-                defaultValue={valueRef.current}
                 contextMenuHidden
                 keyboardType="numeric"
                 placeholderTextColor={tw.color('violet-400')}
@@ -141,24 +140,28 @@ const ListItem = memo(
                   activeInputRef.current = inputRef.current;
                   setInputVisible(true);
 
-                  let formattedText =
-                    currentText === '0' ? '' : currentText.replace('.', ',');
+                  const formattedText =
+                    parseCommaFloat(currentText) === 0
+                      ? ''
+                      : currentText.replace('.', ',');
 
-                  if (formattedText && parseCommaFloat(formattedText) === 0) {
-                    formattedText = '';
+                  if (formattedText === '') {
+                    inputRef.current?.clear();
                   }
 
-                  inputRef.current?.setNativeProps({
-                    text: formattedText,
-                    placeholder: '',
-                    selection: {
-                      start: 0,
-                      end: formattedText.length,
-                    },
+                  setTimeout(() => {
+                    inputRef.current?.setNativeProps({
+                      text: formattedText,
+                      placeholder: '',
+                      selection: {
+                        start: 0,
+                        end: formattedText.length,
+                      },
+                    });
                   });
 
-                  valueRef.current = currentText;
-                  initialValueRef.current = currentText;
+                  valueRef.current = formattedText;
+                  initialValueRef.current = formattedText;
                 }}
                 onBlur={() => {
                   setInputVisible(false);
