@@ -189,10 +189,11 @@ const ListItem = memo(
                 }}
               />
 
-              <View
+              <Pressable
+                onPress={() => inputRef.current?.focus()}
                 style={tw.style(
                   tw`absolute top-0 left-0 rounded-md bg-violet-200`,
-                  { pointerEvents: 'none' },
+                  { pointerEvents: inputVisible ? 'none' : 'auto' },
                 )}
               >
                 <Text
@@ -204,7 +205,7 @@ const ListItem = memo(
                     currency={item.code.toUpperCase()}
                   />
                 </Text>
-              </View>
+              </Pressable>
             </Pressable>
           </View>
           <View
