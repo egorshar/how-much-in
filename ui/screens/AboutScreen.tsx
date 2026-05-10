@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Children, useEffect } from 'react';
 import {
   Linking,
   Platform,
@@ -65,22 +65,24 @@ export default function AboutScreen() {
         })} ${intl.formatDate(new Date(store.lastSync))}`}
         description={
           <>
-            {intl.formatMessage(
-              { id: 'app.about.Sources info' },
-              {
-                link: chunks => (
-                  <Text
-                    style={tw`text-violet-600`}
-                    onPress={() =>
-                      Linking.openURL(
-                        'https://github.com/fawazahmed0/exchange-api',
-                      )
-                    }
-                  >
-                    {chunks}
-                  </Text>
-                ),
-              },
+            {Children.toArray(
+              intl.formatMessage(
+                { id: 'app.about.Sources info' },
+                {
+                  link: chunks => (
+                    <Text
+                      style={tw`text-violet-600`}
+                      onPress={() =>
+                        Linking.openURL(
+                          'https://github.com/fawazahmed0/exchange-api',
+                        )
+                      }
+                    >
+                      {chunks}
+                    </Text>
+                  ),
+                },
+              ),
             )}
             {'\n\n'}
             {intl.formatMessage({ id: 'app.about.Purposes info' })}
