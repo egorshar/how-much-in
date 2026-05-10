@@ -43,3 +43,7 @@ yarn-error.*
 #ide
 .idea
 .claude
+
+# superpowers
+docs/superpowers
+.superpowers
