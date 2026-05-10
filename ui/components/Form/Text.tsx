@@ -26,7 +26,12 @@ function FormText({
       description={description}
     >
       <View style={tw`flex flex-row flex-1 items-center`}>
-        <Text style={tw.style(tw`text-base font-sans flex-1`, textStyle)}>
+        <Text
+          style={tw.style(
+            tw`text-base font-sans flex-1 text-black dark:text-slate-100`,
+            textStyle,
+          )}
+        >
           {text}
         </Text>
       </View>

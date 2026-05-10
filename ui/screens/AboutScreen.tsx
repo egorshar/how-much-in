@@ -44,7 +44,7 @@ export default function AboutScreen() {
               <Ionicons
                 name="close-outline"
                 size={30}
-                color={tw.color('violet-600')}
+                color={tw.color('violet-600 dark:violet-400')}
               />
             ) : (
               <Text style={tw`font-sansSemiBold text-base`}>
@@ -102,7 +102,7 @@ export default function AboutScreen() {
                 {
                   link: chunks => (
                     <Text
-                      style={tw`text-violet-600`}
+                      style={tw`text-violet-600 dark:text-violet-400`}
                       onPress={() =>
                         Linking.openURL(
                           'https://github.com/fawazahmed0/exchange-api',
