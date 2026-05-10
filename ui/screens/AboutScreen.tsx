@@ -76,6 +76,7 @@ export default function AboutScreen() {
                 {
                   link: chunks => (
                     <Text
+                      key={chunks.join('')}
                       style={tw`text-violet-600 dark:text-violet-400`}
                       onPress={() =>
                         Linking.openURL(

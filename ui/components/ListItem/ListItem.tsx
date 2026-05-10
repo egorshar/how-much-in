@@ -154,14 +154,18 @@ const ListItem = memo(
                       ? ''
                       : currentText.replace('.', ',');
 
-                  inputRef.current?.setNativeProps({
-                    text: formattedText,
-                    placeholder: '',
-                    selection: {
-                      start: 0,
-                      end: formattedText.length,
-                    },
-                  });
+                  if (!formattedText) {
+                    setTimeout(() => inputRef.current?.clear());
+                  } else {
+                    inputRef.current?.setNativeProps({
+                      text: formattedText,
+                      placeholder: '',
+                      selection: {
+                        start: 0,
+                        end: formattedText.length,
+                      },
+                    });
+                  }
 
                   valueRef.current = currentText;
                   initialValueRef.current = currentText;
