@@ -68,6 +68,7 @@ const ListItem = memo(
     const inputRef = useRef<TextInput>(null);
     const valueRef = useRef(value > 0 ? value.toString() : '');
     const initialValueRef = useRef('');
+    const pendingSelectAllRef = useRef(false);
 
     return (
       <View
@@ -121,10 +122,7 @@ const ListItem = memo(
                 placeholderTextColor={tw.color('violet-400')}
                 style={tw.style(
                   tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md z-10`,
-                  {
-                    opacity: inputVisible ? 1 : 0,
-                    pointerEvents: inputVisible ? 'auto' : 'none',
-                  },
+                  { opacity: inputVisible ? 1 : 0 },
                 )}
                 onChangeText={v => {
                   setValues(item.code, parseCommaFloat(v));
@@ -159,6 +157,17 @@ const ListItem = memo(
 
                   valueRef.current = formattedText;
                   initialValueRef.current = formattedText;
+                  pendingSelectAllRef.current = formattedText.length > 0;
+                }}
+                onSelectionChange={() => {
+                  if (!pendingSelectAllRef.current) return;
+                  pendingSelectAllRef.current = false;
+                  const len = initialValueRef.current.length;
+                  setTimeout(() => {
+                    inputRef.current?.setNativeProps({
+                      selection: { start: 0, end: len },
+                    });
+                  }, 0);
                 }}
                 onBlur={() => {
                   setInputVisible(false);
