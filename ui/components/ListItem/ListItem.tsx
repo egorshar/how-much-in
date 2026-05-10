@@ -121,7 +121,10 @@ const ListItem = memo(
                 placeholderTextColor={tw.color('violet-400')}
                 style={tw.style(
                   tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md z-10`,
-                  { opacity: inputVisible ? 1 : 0 },
+                  {
+                    opacity: inputVisible ? 1 : 0,
+                    pointerEvents: inputVisible ? 'auto' : 'none',
+                  },
                 )}
                 onChangeText={v => {
                   setValues(item.code, parseCommaFloat(v));
