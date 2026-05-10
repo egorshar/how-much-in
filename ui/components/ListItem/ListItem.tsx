@@ -129,7 +129,7 @@ const ListItem = memo(
                   tw.prefixMatch('dark') ? 'violet-700' : 'violet-400',
                 )}
                 style={tw.style(
-                  tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 dark:bg-violet-800 text-violet-900 dark:text-violet-100 rounded-md z-10`,
+                  tw`text-lg py-1 android:py-[1px] px-2 ios:leading-tight font-sans bg-violet-300 dark:bg-violet-800 text-violet-900 dark:text-violet-100 rounded-md z-10`,
                   { opacity: inputVisible ? 1 : 0 },
                 )}
                 onChangeText={v => {
@@ -197,7 +197,7 @@ const ListItem = memo(
                 )}
               >
                 <Text
-                  style={tw`text-lg py-1 px-2 leading-tight font-sans text-violet-700 dark:text-violet-300`}
+                  style={tw`text-lg py-1 android:py-[1px] px-2 ios:leading-tight font-sans text-violet-700 dark:text-violet-300`}
                 >
                   <FormattedNumber
                     value={value}

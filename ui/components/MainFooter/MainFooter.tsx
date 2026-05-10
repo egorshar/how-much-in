@@ -185,6 +185,7 @@ export default function MainFooter({
     <WrapperView
       style={tw.style(
         tw`absolute bottom-0 w-full h-[82px] android:h-[55px] android:bg-white android:dark:bg-slate-900`,
+        Platform.OS === 'android' && { bottom: insets.bottom },
       )}
       blurType="regular"
       reducedTransparencyFallbackColor="white"

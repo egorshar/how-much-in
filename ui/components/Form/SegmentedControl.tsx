@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import tw from '@ui/tailwind';
 
 export type SegmentedControlOption<T extends string> = {
@@ -19,17 +19,24 @@ export default function SegmentedControl<T extends string>({
 }: SegmentedControlProps<T>) {
   return (
     <View
-      style={tw`flex-row p-1 rounded-lg bg-slate-200 dark:bg-slate-800 flex-1`}
+      style={tw`flex-row flex-1 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden`}
     >
-      {options.map(opt => {
+      {options.map((opt, i) => {
         const selected = opt.value === value;
         return (
-          <TouchableOpacity
+          <Pressable
             key={opt.value}
             onPress={() => onChange(opt.value)}
+            android_ripple={{
+              color:
+                tw.color(
+                  tw.prefixMatch('dark') ? 'slate-600' : 'slate-300',
+                ) ?? undefined,
+            }}
             style={tw.style(
-              `flex-1 items-center justify-center py-1.5 rounded-md`,
-              selected && `bg-white dark:bg-slate-700 shadow`,
+              `flex-1 items-center justify-center py-2`,
+              selected && `bg-slate-200 dark:bg-slate-700`,
+              i > 0 && `border-l border-slate-300 dark:border-slate-600`,
             )}
           >
             <Text
@@ -37,12 +44,12 @@ export default function SegmentedControl<T extends string>({
                 `text-sm font-sans`,
                 selected
                   ? `text-slate-900 dark:text-slate-100 font-sansSemiBold`
-                  : `text-slate-600 dark:text-slate-300`,
+                  : `text-slate-600 dark:text-slate-400`,
               )}
             >
               {opt.label}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>

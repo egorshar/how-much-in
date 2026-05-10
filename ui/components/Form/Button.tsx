@@ -38,10 +38,7 @@ function Button({
         <FormElement
           hasStaticHeight
           style={[
-            tw.style(
-              'flex-row items-center android:px-4',
-              'android:dark:bg-slate-700',
-            ),
+            tw.style('flex-row items-center android:px-4'),
             pressed &&
               Platform.OS === 'ios' && { backgroundColor: pressedColor },
             pressed && Platform.OS === 'android' && { opacity: 0.2 },

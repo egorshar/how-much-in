@@ -60,8 +60,10 @@ function FormElement({
                 : 'ios:min-h-11 android:min-h-14'),
             isFirst && (IS_IOS26 ? 'ios:rounded-t-3xl' : 'ios:rounded-t-xl'),
             isLast &&
-              (IS_IOS26 ? 'ios:rounded-b-3xl mb-8' : 'ios:rounded-b-xl mb-8'),
-            isLast && !!description && 'mb-1.5',
+              (IS_IOS26
+                ? 'ios:rounded-b-3xl ios:mb-8 android:mb-3'
+                : 'ios:rounded-b-xl ios:mb-8 android:mb-3'),
+            isLast && !!description && 'ios:mb-1.5 android:mb-1',
           ),
           style,
         ]}
@@ -76,7 +78,7 @@ function FormElement({
               !isLast &&
                 'android:bg-[#ECEEF5] android:dark:bg-[#38383A] android:right-4',
               isLast &&
-                'android:left-0 android:right-0 android:h-1.5 android:bg-[rgba(0,0,0,0.1)] android:dark:bg-[rgba(255,255,255,0.08)]',
+                'android:left-0 android:right-0 android:h-px android:bg-[rgba(0,0,0,0.08)] android:dark:bg-[rgba(255,255,255,0.08)]',
               !isLast && { height: 1 },
               { zIndex: 1 },
               borderStyle,
@@ -88,7 +90,7 @@ function FormElement({
       {isLast && description ? (
         <Text
           style={tw.style(
-            `mb-8 text-[#A29EAA] dark:text-[#8E8E93] text-xs font-sans`,
+            `ios:mb-8 android:mb-3 text-[#A29EAA] dark:text-[#8E8E93] text-xs font-sans`,
             IS_IOS26 ? `ios:mx-8` : `ios:mx-9`,
             `android:mx-4`,
           )}

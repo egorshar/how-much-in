@@ -31,6 +31,10 @@ function RootNavigator() {
           headerLargeTitleStyle: tw`font-sansBold text-black dark:text-slate-100`,
           headerTransparent: Platform.OS === 'ios',
           headerBlurEffect: !IS_IOS26 ? 'regular' : undefined,
+          headerStyle:
+            Platform.OS === 'android'
+              ? tw`bg-white dark:bg-slate-900`
+              : undefined,
         })}
       />
 
@@ -55,6 +59,10 @@ function RootNavigator() {
             title: intl.formatMessage({ id: 'app.Add currency' }),
             headerTitleStyle: tw`font-sansBold`,
             headerTransparent: Platform.OS === 'ios' && IS_IOS26,
+            headerStyle:
+              Platform.OS === 'android'
+                ? tw`bg-white dark:bg-slate-900`
+                : undefined,
           })}
         />
       </Stack.Group>
