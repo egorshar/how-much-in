@@ -274,13 +274,17 @@ export default function MainScreen() {
           onValueChange(memoizedLastCurrencyCode.current, finalValue, false);
 
           setTimeout(() => {
-            const resultText =
+            let resultText =
               finalValue === 0
                 ? ''
                 : intl
                     .formatNumber(finalValue, { useGrouping: false })
                     .toString()
                     .replace(/\s/g, '');
+
+            if (resultText && parseFloat(resultText.replace(',', '.')) === 0) {
+              resultText = '';
+            }
 
             activeTextInputRef.current?.setNativeProps({
               text: resultText,
@@ -295,13 +299,22 @@ export default function MainScreen() {
           memoizedLastOperation.current = buttonType;
           memoizedValueToCalc.current = memoizedLastInputValue.current;
 
+          let placeholderText = intl
+            .formatNumber(memoizedValueToCalc.current, {
+              useGrouping: false,
+            })
+            .toString();
+
+          if (
+            placeholderText &&
+            parseFloat(placeholderText.replace(',', '.')) === 0
+          ) {
+            placeholderText = '';
+          }
+
           activeTextInputRef.current.setNativeProps({
             text: '',
-            placeholder: intl
-              .formatNumber(memoizedValueToCalc.current, {
-                useGrouping: false,
-              })
-              .toString(),
+            placeholder: placeholderText,
           });
         }
       }

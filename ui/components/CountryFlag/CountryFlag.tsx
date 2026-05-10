@@ -24,22 +24,24 @@ export default function CountryFlag({ isoCode }: CountryFlagProps) {
   const isoCodeUpper = isoCode.toUpperCase();
   const countryCode = fixCountryCode(CURRENCIES[isoCodeUpper].toLowerCase());
   const size = 40;
+  const imageWidth = size * 1.6;
+  const overflow = imageWidth - size;
   const align = FLAG_ALIGN[isoCodeUpper] ?? 'center';
-  const justifyClass = {
-    left: 'justify-start',
-    right: 'justify-end',
-    center: 'justify-center',
+  const marginLeft = {
+    left: 0,
+    right: -overflow,
+    center: -overflow / 2,
   }[align];
 
   return (
     <View style={tw`relative mr-4 shrink-0`}>
       <View
-        style={tw`overflow-hidden rounded-xl h-[40px] w-10 items-center ${justifyClass} shrink-0 border border-slate-200`}
+        style={tw`overflow-hidden rounded-xl h-[40px] w-10 shrink-0 border border-slate-200`}
       >
         {CURRENCIES[isoCodeUpper] ? (
           <FastImage
             source={FLAGS[countryCode]}
-            style={{ width: size * 1.6, height: size }}
+            style={{ width: imageWidth, height: size, marginLeft }}
           />
         ) : null}
       </View>

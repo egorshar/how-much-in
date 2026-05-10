@@ -141,8 +141,12 @@ const ListItem = memo(
                   activeInputRef.current = inputRef.current;
                   setInputVisible(true);
 
-                  const formattedText =
+                  let formattedText =
                     currentText === '0' ? '' : currentText.replace('.', ',');
+
+                  if (formattedText && parseCommaFloat(formattedText) === 0) {
+                    formattedText = '';
+                  }
 
                   inputRef.current?.setNativeProps({
                     text: formattedText,
