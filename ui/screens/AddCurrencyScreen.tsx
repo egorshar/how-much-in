@@ -136,22 +136,33 @@ export default function AddCurrencyScreen() {
 
       return (
         <View
-          style={tw.style(tw`relative px-6 py-2 bg-slate-200 bg-violet-200`, {
-            marginBottom: -StyleSheet.hairlineWidth,
-          })}
+          style={tw.style(
+            tw`relative px-6 py-2 bg-violet-200 dark:bg-violet-900`,
+            {
+              marginBottom: -StyleSheet.hairlineWidth,
+            },
+          )}
         >
           <View
-            style={tw.style(tw`absolute top-0 bg-slate-400 left-0 right-0`, {
-              height: StyleSheet.hairlineWidth,
-            })}
+            style={tw.style(
+              tw`absolute top-0 bg-slate-400 dark:bg-slate-700 left-0 right-0`,
+              {
+                height: StyleSheet.hairlineWidth,
+              },
+            )}
           />
 
-          <Text style={tw`text-violet-700 font-sans`}>{section.title}</Text>
+          <Text style={tw`text-violet-700 dark:text-violet-300 font-sans`}>
+            {section.title}
+          </Text>
 
           <View
-            style={tw.style(tw`absolute bottom-0 bg-slate-400 left-0 right-0`, {
-              height: StyleSheet.hairlineWidth,
-            })}
+            style={tw.style(
+              tw`absolute bottom-0 bg-slate-400 dark:bg-slate-700 left-0 right-0`,
+              {
+                height: StyleSheet.hairlineWidth,
+              },
+            )}
           />
         </View>
       );
@@ -239,7 +250,7 @@ export default function AddCurrencyScreen() {
               <Ionicons
                 name="checkmark-outline"
                 size={30}
-                color={tw.color('violet-600')}
+                color={tw.color('violet-600 dark:violet-400')}
               />
             ) : (
               <Text style={tw`font-sansSemiBold text-base`}>
@@ -252,7 +263,7 @@ export default function AddCurrencyScreen() {
   }, [onPressAddingDone]);
 
   return (
-    <GestureHandlerRootView style={tw`flex-1 bg-white`}>
+    <GestureHandlerRootView style={tw`flex-1 bg-white dark:bg-slate-900`}>
       <SectionList
         sections={data}
         keyExtractor={item => item.code}
@@ -263,13 +274,13 @@ export default function AddCurrencyScreen() {
         SectionSeparatorComponent={() => null}
         ItemSeparatorComponent={() => (
           <View
-            style={tw.style(tw`mx-4 bg-slate-400`, {
+            style={tw.style(tw`mx-4 bg-slate-400 dark:bg-slate-700`, {
               height: StyleSheet.hairlineWidth,
             })}
           />
         )}
-        contentContainerStyle={tw`bg-white`}
-        style={tw`bg-white`}
+        contentContainerStyle={tw`bg-white dark:bg-slate-900`}
+        style={tw`bg-white dark:bg-slate-900`}
       />
     </GestureHandlerRootView>
   );
