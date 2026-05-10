@@ -46,7 +46,9 @@ export default function CountryFlag({ isoCode }: CountryFlagProps) {
         ) : null}
       </View>
 
-      <View style={tw`absolute -bottom-2 -right-1.5 bg-slate-200 px-1 rounded`}>
+      <View
+        style={tw`absolute -bottom-1.5 -right-1.5 bg-slate-200 px-1 rounded`}
+      >
         <Text style={tw`text-xs font-sans`}>{isoCodeUpper}</Text>
       </View>
     </View>
