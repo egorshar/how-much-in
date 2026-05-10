@@ -1,5 +1,5 @@
 {
-  "app.Search by country or currency":  "Search by country or currency",
+  "app.Search by country or currency": "Search by country or currency",
   "app.Rates from": "Rates synced",
   "app.Refreshing rates": "Refreshing rates",
   "app.title": "How Much In",
@@ -11,6 +11,10 @@
   "app.error.Rates are up to date": "Rates are up to date 👍",
   "app.error.Oops, try later please": "Oops, try later please",
   "app.about.Rates updated": "Rates updated",
+  "app.about.Appearance": "Appearance",
+  "app.about.theme.System": "System",
+  "app.about.theme.Light": "Light",
+  "app.about.theme.Dark": "Dark",
   "app.about.Feedback": "Feedback",
   "app.about.Terms": "Terms",
   "app.about.Privacy": "Privacy",

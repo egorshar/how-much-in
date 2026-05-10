@@ -367,7 +367,9 @@ export default function MainScreen() {
             <Ionicons
               name="add-outline"
               size={30}
-              color={tw.color('violet-600')}
+              color={tw.color(
+                tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+              )}
             />
           </TouchableOpacity>
         ),
@@ -380,6 +382,7 @@ export default function MainScreen() {
       {isEditing ? (
         <DraggableFlatList
           data={data}
+          extraData={store.colorScheme}
           keyExtractor={item => item.code}
           onDragEnd={({ data: sortedData }) => {
             store.setSelectedCurrencies(sortedData.map(item => item.code));
@@ -388,19 +391,20 @@ export default function MainScreen() {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
           }
           renderItem={renderItemEditingWrapped}
-          style={tw`bg-white h-full`}
+          style={tw`bg-white dark:bg-slate-900 h-full`}
           contentContainerStyle={{ paddingBottom: 82 }}
           contentInsetAdjustmentBehavior="automatic"
         />
       ) : (
         <FlatList
           data={data}
+          extraData={store.colorScheme}
           keyExtractor={item => item.code}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           renderItem={renderItem}
-          style={tw`bg-white h-full`}
+          style={tw`bg-white dark:bg-slate-900 h-full`}
           contentContainerStyle={{ paddingBottom: 82 }}
           contentInset={{
             bottom: keyboardHeight > 0 ? keyboardHeight + 80 : 0,

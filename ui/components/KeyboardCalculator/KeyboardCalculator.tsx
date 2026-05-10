@@ -30,7 +30,7 @@ function KeyboardCalculatorButton({
   return (
     <TouchableOpacity
       style={tw.style(
-        `flex flex-grow ml-2 h-10 bg-violet-300 items-center justify-center rounded`,
+        `flex flex-grow ml-2 h-10 bg-violet-300 dark:bg-violet-800 items-center justify-center rounded`,
         buttonStyle,
       )}
       onPress={() => onPress(type)}
@@ -38,7 +38,9 @@ function KeyboardCalculatorButton({
       <Ionicons
         name={icon}
         size={30}
-        color={tw.color('violet-900')}
+        color={tw.color(
+          tw.prefixMatch('dark') ? 'violet-200' : 'violet-900',
+        )}
         style={iconStyle}
       />
     </TouchableOpacity>
@@ -69,12 +71,14 @@ export default function KeyboardCalculator(props: KeyboardCalculatorProps) {
 
   return (
     <View
-      style={tw.style(`absolute left-0 right-0 bg-white`, {
+      style={tw.style(`absolute left-0 right-0 bg-white dark:bg-slate-900`, {
         bottom: keyboardHeight,
       })}
     >
       <View style={tw`p-1.5`}>
-        <View style={tw`flex-row bg-violet-50 rounded w-full p-2`}>
+        <View
+          style={tw`flex-row bg-violet-50 dark:bg-violet-950 rounded w-full p-2`}
+        >
           <KeyboardCalculatorButton
             type="plus"
             icon="add-outline"

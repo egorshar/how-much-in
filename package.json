@@ -15,6 +15,7 @@
   "dependencies": {
     "@callstack/liquid-glass": "^0.7.1",
     "@d11/react-native-fast-image": "8.13.0",
+    "@expo/ui": "~55.0.15",
     "@expo/vector-icons": "^15.1.1",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/blur": "^4.4.1",
@@ -23,8 +24,8 @@
     "@types/react": "~19.2.14",
     "axios": "^1.13.6",
     "babel-preset-expo": "~55.0.8",
-    "expo": "~55.0.4",
-    "expo-dev-client": "~55.0.10",
+    "expo": "~55.0.23",
+    "expo-dev-client": "~55.0.23",
     "expo-font": "~55.0.4",
     "expo-haptics": "~55.0.8",
     "expo-localization": "~55.0.8",

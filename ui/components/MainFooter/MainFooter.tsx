@@ -64,7 +64,9 @@ export default function MainFooter({
 
   if (IS_IOS26) {
     const fallbackTint = !isLiquidGlassSupported && {
-      backgroundColor: 'rgba(255,255,255,0.7)',
+      backgroundColor: tw.prefixMatch('dark')
+        ? 'rgba(0,0,0,0.5)'
+        : 'rgba(255,255,255,0.7)',
     };
 
     return (
@@ -97,7 +99,9 @@ export default function MainFooter({
                   <Ionicons
                     name="checkmark-outline"
                     size={28}
-                    color={tw.color('violet-600')}
+                    color={tw.color(
+                    tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                  )}
                   />
                 </TouchableOpacity>
               </LiquidGlassView>
@@ -119,7 +123,9 @@ export default function MainFooter({
                   <Ionicons
                     name="help-buoy-outline"
                     size={26}
-                    color={tw.color('violet-600')}
+                    color={tw.color(
+                    tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                  )}
                   />
                 </TouchableOpacity>
               </LiquidGlassView>
@@ -138,7 +144,7 @@ export default function MainFooter({
 
                   <Text
                     numberOfLines={1}
-                    style={tw`text-center text-slate-800 font-semibold text-base`}
+                    style={tw`text-center text-slate-800 dark:text-slate-200 font-semibold text-base`}
                   >
                     {getRefreshingMessage()}
                   </Text>
@@ -160,7 +166,9 @@ export default function MainFooter({
                   <Ionicons
                     name="list-outline"
                     size={26}
-                    color={tw.color('violet-600')}
+                    color={tw.color(
+                    tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                  )}
                   />
                 </TouchableOpacity>
               </LiquidGlassView>
@@ -176,13 +184,13 @@ export default function MainFooter({
   return (
     <WrapperView
       style={tw.style(
-        tw`absolute bottom-0 w-full h-[82px] android:h-[55px] android:bg-white`,
+        tw`absolute bottom-0 w-full h-[82px] android:h-[55px] android:bg-white android:dark:bg-slate-900`,
       )}
       blurType="regular"
       reducedTransparencyFallbackColor="white"
     >
       <View
-        style={tw.style(tw`bg-slate-300`, {
+        style={tw.style(tw`bg-slate-300 dark:bg-slate-700`, {
           height: StyleSheet.hairlineWidth,
         })}
       />
@@ -193,7 +201,9 @@ export default function MainFooter({
             style={tw`p-4 -m-4 ml-auto`}
             onPress={() => setEditing(!isEditing)}
           >
-            <Text style={tw`font-sansSemiBold text-base`}>
+            <Text
+              style={tw`font-sansSemiBold text-base text-black dark:text-slate-100`}
+            >
               <FormattedMessage id="app.Done" />
             </Text>
           </TouchableOpacity>
@@ -206,7 +216,9 @@ export default function MainFooter({
               <Ionicons
                 name="information-circle-outline"
                 size={25}
-                color={tw.color('slate-500')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'slate-400' : 'slate-500',
+                )}
               />
             </TouchableOpacity>
 
@@ -215,7 +227,9 @@ export default function MainFooter({
                 <ActivityIndicator style={tw`mr-2`} />
               )}
 
-              <Text style={tw`text-center text-slate-500 text-sm font-sans`}>
+              <Text
+                style={tw`text-center text-slate-500 dark:text-slate-400 text-sm font-sans`}
+              >
                 {getRefreshingMessage()}
               </Text>
             </View>
@@ -227,7 +241,9 @@ export default function MainFooter({
               <Ionicons
                 name="list-outline"
                 size={25}
-                color={tw.color('slate-500')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'slate-400' : 'slate-500',
+                )}
               />
             </TouchableOpacity>
           </>

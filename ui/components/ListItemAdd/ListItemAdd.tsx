@@ -6,6 +6,7 @@ import BouncyCheckbox, {
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
+import { useStore } from '@services/store';
 
 type ListItemAdd = {
   item: any;
@@ -17,23 +18,30 @@ const ListItemAdd = memo(
   (props: ListItemAdd) => {
     const { item, isSelected, onCheckboxChange } = props;
 
+    // Subscribe to scheme changes so memoized rows re-evaluate dark variants.
+    useStore(s => s.colorScheme);
+
     const checkboxRef = useRef<BouncyCheckboxHandle>(null);
 
     return (
-      <View style={tw`relative py-px bg-white`}>
+      <View style={tw`relative py-px bg-white dark:bg-slate-800`}>
         <TouchableOpacity
-          style={tw`h-15 justify-center bg-white`}
+          style={tw`h-15 justify-center bg-white dark:bg-slate-800`}
           onPress={() => {
             checkboxRef.current?.onCheckboxPress();
           }}
         >
-          <View style={tw`flex flex-row items-center px-4 bg-white`}>
+          <View
+            style={tw`flex flex-row items-center px-4 bg-white dark:bg-slate-800`}
+          >
             <BouncyCheckbox
               ref={checkboxRef}
               isChecked={isSelected}
               disableText
-              innerIconStyle={tw`border-violet-700`}
-              fillColor={tw.color('violet-700')}
+              innerIconStyle={tw`border-violet-700 dark:border-violet-300`}
+              fillColor={tw.color(
+                tw.prefixMatch('dark') ? 'violet-300' : 'violet-700',
+              )}
               style={tw`mr-4`}
               onPress={isChecked => {
                 onCheckboxChange(item.code, isChecked);
@@ -46,7 +54,7 @@ const ListItemAdd = memo(
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                style={tw`text-base font-sansBold`}
+                style={tw`text-base font-sansBold text-black dark:text-slate-100`}
               >
                 {item.value}
               </Text>

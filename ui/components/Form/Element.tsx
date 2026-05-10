@@ -40,7 +40,7 @@ function FormElement({
           <Text
             style={tw.style(
               `ios:font-semibold ios:text-lg`,
-              `android:text-[#B49389] android:font-medium`,
+              `android:text-[#B49389] android:dark:text-[#8E8E93] android:font-medium`,
             )}
           >
             {caption}
@@ -53,7 +53,7 @@ function FormElement({
             IS_IOS26
               ? 'ios:bg-white ios:pl-4 ios:mx-4 ios:pr-1 ios:dark:bg-[#1C1C1E]'
               : 'ios:bg-white ios:pl-4 ios:mx-5 ios:pr-1 ios:dark:bg-[#1C1C1E]',
-            'android:px-4 relative android:bg-white',
+            'android:px-4 relative android:bg-white android:dark:bg-[#1C1C1E]',
             hasStaticHeight &&
               (IS_IOS26
                 ? 'ios:min-h-12 android:min-h-14'
@@ -72,15 +72,13 @@ function FormElement({
           <View
             style={tw.style(
               'absolute bottom-0 left-4 right-0',
-              'ios:bg-[#ECEEF5] ios:-mr-1',
-              'android:bg-[#ECEEF5] android:right-4',
-              isLast && 'ios:bg-transparent',
+              !isLast && 'ios:bg-[#ECEEF5] ios:dark:bg-[#38383A]',
+              !isLast &&
+                'android:bg-[#ECEEF5] android:dark:bg-[#38383A] android:right-4',
               isLast &&
-                'android:left-0 android:right-0 android:h-1.5 android:bg-[rgba(0,0,0,0.1)]',
-              {
-                zIndex: 1,
-                height: 1,
-              },
+                'android:left-0 android:right-0 android:h-1.5 android:bg-[rgba(0,0,0,0.1)] android:dark:bg-[rgba(255,255,255,0.08)]',
+              !isLast && { height: 1 },
+              { zIndex: 1 },
               borderStyle,
             )}
           />
@@ -90,7 +88,7 @@ function FormElement({
       {isLast && description ? (
         <Text
           style={tw.style(
-            `mb-8 text-[#A29EAA] text-xs font-sans`,
+            `mb-8 text-[#A29EAA] dark:text-[#8E8E93] text-xs font-sans`,
             IS_IOS26 ? `ios:mx-8` : `ios:mx-9`,
             `android:mx-4`,
           )}

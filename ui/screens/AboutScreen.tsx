@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { Children, useEffect } from 'react';
 import {
   Linking,
   Platform,
   ScrollView,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -15,6 +16,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import FormButton from '@ui/components/Form/Button';
 import FormText from '@ui/components/Form/Text';
+import FormElement from '@ui/components/Form/Element';
+import SegmentedControl from '@ui/components/Form/SegmentedControl';
 
 import { useStore } from '@services/store';
 
@@ -41,7 +44,9 @@ export default function AboutScreen() {
               <Ionicons
                 name="close-outline"
                 size={30}
-                color={tw.color('violet-600')}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'violet-400' : 'violet-600',
+                )}
               />
             ) : (
               <Text style={tw`font-sansSemiBold text-base`}>
@@ -65,22 +70,25 @@ export default function AboutScreen() {
         })} ${intl.formatDate(new Date(store.lastSync))}`}
         description={
           <>
-            {intl.formatMessage(
-              { id: 'app.about.Sources info' },
-              {
-                link: chunks => (
-                  <Text
-                    style={tw`text-violet-600`}
-                    onPress={() =>
-                      Linking.openURL(
-                        'https://github.com/fawazahmed0/exchange-api',
-                      )
-                    }
-                  >
-                    {chunks}
-                  </Text>
-                ),
-              },
+            {Children.toArray(
+              intl.formatMessage(
+                { id: 'app.about.Sources info' },
+                {
+                  link: chunks => (
+                    <Text
+                      key={chunks.join('')}
+                      style={tw`text-violet-600 dark:text-violet-400`}
+                      onPress={() =>
+                        Linking.openURL(
+                          'https://github.com/fawazahmed0/exchange-api',
+                        )
+                      }
+                    >
+                      {Children.toArray(chunks)}
+                    </Text>
+                  ),
+                },
+              ),
             )}
             {'\n\n'}
             {intl.formatMessage({ id: 'app.about.Purposes info' })}
@@ -89,6 +97,34 @@ export default function AboutScreen() {
         isFirst
         isLast
       />
+
+      <FormElement isFirst isLast hasStaticHeight={false}>
+        <View style={tw`flex-1 py-3 pr-3`}>
+          <Text
+            style={tw`text-base font-sans text-black dark:text-slate-100 mb-2`}
+          >
+            {intl.formatMessage({ id: 'app.about.Appearance' })}
+          </Text>
+          <SegmentedControl<ColorScheme>
+            value={store.colorScheme}
+            onChange={store.setColorScheme}
+            options={[
+              {
+                value: 'system',
+                label: intl.formatMessage({ id: 'app.about.theme.System' }),
+              },
+              {
+                value: 'light',
+                label: intl.formatMessage({ id: 'app.about.theme.Light' }),
+              },
+              {
+                value: 'dark',
+                label: intl.formatMessage({ id: 'app.about.theme.Dark' }),
+              },
+            ]}
+          />
+        </View>
+      </FormElement>
 
       <FormButton
         title={intl.formatMessage({ id: 'app.about.Feedback' })}

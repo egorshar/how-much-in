@@ -17,6 +17,7 @@ import tw from '@ui/tailwind';
 
 import { ITEM_HEIGHT } from '@constants';
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
+import { useStore } from '@services/store';
 
 function UnderlayLeft(props: { onPress: () => void }) {
   const { onPress } = props;
@@ -48,6 +49,9 @@ const ListItemDraggable = memo(
   (props: ListItemDraggableProps) => {
     const { item, drag, isActive, deleteSelectedCurrency } = props;
 
+    // Subscribe to scheme changes so memoized rows re-evaluate dark variants.
+    useStore(s => s.colorScheme);
+
     const swipeItemRef = useRef<SwipeableItemImperativeRef>(null);
 
     return (
@@ -64,14 +68,17 @@ const ListItemDraggable = memo(
           onLongPress={drag}
           onPress={() => swipeItemRef.current?.close()}
           disabled={isActive}
-          style={tw.style(tw`relative bg-white`, {
+          style={tw.style(tw`relative bg-white dark:bg-transparent`, {
             marginTop: -StyleSheet.hairlineWidth,
           })}
         >
           <View
-            style={tw.style(tw`absolute top-0 bg-slate-400 left-31 right-5`, {
-              height: StyleSheet.hairlineWidth,
-            })}
+            style={tw.style(
+              tw`absolute top-0 bg-slate-400 dark:bg-slate-700 left-31 right-5`,
+              {
+                height: StyleSheet.hairlineWidth,
+              },
+            )}
           />
 
           <View style={tw`justify-center h-[${ITEM_HEIGHT}px]`}>
@@ -95,7 +102,7 @@ const ListItemDraggable = memo(
                 <Text
                   numberOfLines={1}
                   ellipsizeMode="tail"
-                  style={tw`text-base px-2 font-sansBold`}
+                  style={tw`text-base px-2 font-sansBold text-black dark:text-slate-100`}
                 >
                   <FormattedMessage
                     id={`currencies.prepositional.${item.code.toLowerCase()}`}
@@ -104,13 +111,19 @@ const ListItemDraggable = memo(
                 </Text>
               </View>
 
-              <Ionicons name="menu-outline" size={20} />
+              <Ionicons
+                name="menu-outline"
+                size={20}
+                color={tw.color(
+                  tw.prefixMatch('dark') ? 'slate-100' : 'black',
+                )}
+              />
             </View>
           </View>
 
           <View
             style={tw.style(
-              tw`absolute bottom-0 bg-slate-400 left-31 right-5`,
+              tw`absolute bottom-0 bg-slate-400 dark:bg-slate-700 left-31 right-5`,
               {
                 height: StyleSheet.hairlineWidth,
               },

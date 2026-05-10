@@ -13,6 +13,7 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import tw from '@ui/tailwind';
 
 import CountryFlag from '@ui/components/CountryFlag/CountryFlag';
+import { useStore } from '@services/store';
 import { IS_IOS26, ITEM_HEIGHT } from '@constants';
 
 export type ListItemProps = {
@@ -64,6 +65,9 @@ const ListItem = memo(
       isLast,
     } = props;
 
+    // Subscribe to scheme changes so memoized rows re-evaluate dark variants.
+    useStore(s => s.colorScheme);
+
     const [inputVisible, setInputVisible] = useState(false);
     const inputRef = useRef<TextInput>(null);
     const valueRef = useRef(value > 0 ? value.toString() : '');
@@ -82,18 +86,20 @@ const ListItem = memo(
           }}
           style={tw.style(
             IS_IOS26
-              ? tw`flex flex-row items-center px-4 bg-white h-[${ITEM_HEIGHT}px]`
-              : tw`flex flex-row items-center px-5 bg-white h-[${ITEM_HEIGHT}px]`,
+              ? tw`flex flex-row items-center px-4 bg-white dark:bg-transparent h-[${ITEM_HEIGHT}px]`
+              : tw`flex flex-row items-center px-5 bg-white dark:bg-transparent h-[${ITEM_HEIGHT}px]`,
             activeCurrency === item.code && {
-              backgroundColor: tw.color('violet-50'),
+              backgroundColor: tw.color(
+                tw.prefixMatch('dark') ? 'slate-800' : 'violet-50',
+              ),
             },
           )}
         >
           <View
             style={tw.style(
               IS_IOS26
-                ? tw`absolute top-0 bg-slate-400 left-20 right-4 z-10`
-                : tw`absolute top-0 bg-slate-400 left-21 right-5 z-10`,
+                ? tw`absolute top-0 bg-slate-400 dark:bg-slate-700 left-20 right-4 z-10`
+                : tw`absolute top-0 bg-slate-400 dark:bg-slate-700 left-21 right-5 z-10`,
               !isFirst && {
                 height: StyleSheet.hairlineWidth,
               },
@@ -105,7 +111,7 @@ const ListItem = memo(
             <Text
               numberOfLines={1}
               ellipsizeMode="tail"
-              style={tw`text-sm font-bold pb-1 pl-2 font-sansBold font-bold`}
+              style={tw`text-sm font-bold pb-1 pl-2 font-sansBold font-bold text-black dark:text-slate-100`}
             >
               <FormattedMessage
                 id={`currencies.prepositional.${item.code.toLowerCase()}`}
@@ -119,9 +125,11 @@ const ListItem = memo(
                 defaultValue={valueRef.current}
                 contextMenuHidden
                 keyboardType="numeric"
-                placeholderTextColor={tw.color('violet-400')}
+                placeholderTextColor={tw.color(
+                  tw.prefixMatch('dark') ? 'violet-700' : 'violet-400',
+                )}
                 style={tw.style(
-                  tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 text-violet-900 rounded-md z-10`,
+                  tw`text-lg py-1 android:py-[1px] px-2 leading-tight font-sans bg-violet-300 dark:bg-violet-800 text-violet-900 dark:text-violet-100 rounded-md z-10`,
                   { opacity: inputVisible ? 1 : 0 },
                 )}
                 onChangeText={v => {
@@ -146,14 +154,18 @@ const ListItem = memo(
                       ? ''
                       : currentText.replace('.', ',');
 
-                  inputRef.current?.setNativeProps({
-                    text: formattedText,
-                    placeholder: '',
-                    selection: {
-                      start: 0,
-                      end: formattedText.length,
-                    },
-                  });
+                  if (!formattedText) {
+                    setTimeout(() => inputRef.current?.clear());
+                  } else {
+                    inputRef.current?.setNativeProps({
+                      text: formattedText,
+                      placeholder: '',
+                      selection: {
+                        start: 0,
+                        end: formattedText.length,
+                      },
+                    });
+                  }
 
                   valueRef.current = currentText;
                   initialValueRef.current = currentText;
@@ -180,12 +192,12 @@ const ListItem = memo(
 
               <View
                 style={tw.style(
-                  tw`absolute top-0 left-0 rounded-md bg-violet-200`,
+                  tw`absolute top-0 left-0 rounded-md bg-violet-200 dark:bg-violet-900`,
                   { pointerEvents: 'none' },
                 )}
               >
                 <Text
-                  style={tw`text-lg py-1 px-2 leading-tight font-sans text-violet-700`}
+                  style={tw`text-lg py-1 px-2 leading-tight font-sans text-violet-700 dark:text-violet-300`}
                 >
                   <FormattedNumber
                     value={value}
@@ -199,8 +211,8 @@ const ListItem = memo(
           <View
             style={tw.style(
               IS_IOS26
-                ? tw`absolute bottom-0 left-20 right-3 bg-slate-400`
-                : tw`absolute bottom-0 left-21 right-4 bg-slate-400`,
+                ? tw`absolute bottom-0 left-20 right-3 bg-slate-400 dark:bg-slate-700`
+                : tw`absolute bottom-0 left-21 right-4 bg-slate-400 dark:bg-slate-700`,
               !isLast && {
                 height: StyleSheet.hairlineWidth,
               },

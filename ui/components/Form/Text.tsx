@@ -4,7 +4,10 @@ import tw from '@ui/tailwind';
 
 import FormElement, { FormElementProps } from './Element';
 
-export type FormTextProps = Omit<FormElementProps, 'children'> & {
+export type FormTextProps = Omit<
+  FormElementProps,
+  'children' | 'hasStaticHeight'
+> & {
   text: string;
   hasStaticHeight?: boolean;
   textStyle?: ClassInput;
@@ -26,7 +29,12 @@ function FormText({
       description={description}
     >
       <View style={tw`flex flex-row flex-1 items-center`}>
-        <Text style={tw.style(tw`text-base font-sans flex-1`, textStyle)}>
+        <Text
+          style={tw.style(
+            tw`text-base font-sans flex-1 text-black dark:text-slate-100`,
+            textStyle,
+          )}
+        >
           {text}
         </Text>
       </View>
