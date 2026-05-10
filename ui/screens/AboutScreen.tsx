@@ -63,10 +63,29 @@ export default function AboutScreen() {
         text={`${intl.formatMessage({
           id: 'app.about.Rates updated',
         })} ${intl.formatDate(new Date(store.lastSync))}`}
-        description={[
-          intl.formatMessage({ id: 'app.about.Sources info' }),
-          intl.formatMessage({ id: 'app.about.Purposes info' }),
-        ].join('\n\n')}
+        description={
+          <>
+            {intl.formatMessage(
+              { id: 'app.about.Sources info' },
+              {
+                link: chunks => (
+                  <Text
+                    style={tw`text-violet-600`}
+                    onPress={() =>
+                      Linking.openURL(
+                        'https://github.com/fawazahmed0/exchange-api',
+                      )
+                    }
+                  >
+                    {chunks}
+                  </Text>
+                ),
+              },
+            )}
+            {'\n\n'}
+            {intl.formatMessage({ id: 'app.about.Purposes info' })}
+          </>
+        }
         isFirst
         isLast
       />

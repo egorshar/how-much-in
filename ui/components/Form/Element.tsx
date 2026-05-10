@@ -8,7 +8,7 @@ import { IS_IOS26 } from '@constants';
 export type FormElementProps = {
   children: ReactNode;
   caption?: string;
-  description?: string;
+  description?: ReactNode;
   hasStaticHeight: boolean;
   isFirst?: boolean;
   isLast?: boolean;
@@ -61,7 +61,7 @@ function FormElement({
             isFirst && (IS_IOS26 ? 'ios:rounded-t-3xl' : 'ios:rounded-t-xl'),
             isLast &&
               (IS_IOS26 ? 'ios:rounded-b-3xl mb-8' : 'ios:rounded-b-xl mb-8'),
-            isLast && description && 'mb-1.5',
+            isLast && !!description && 'mb-1.5',
           ),
           style,
         ]}
