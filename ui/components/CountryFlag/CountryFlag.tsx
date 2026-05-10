@@ -36,7 +36,7 @@ export default function CountryFlag({ isoCode }: CountryFlagProps) {
   return (
     <View style={tw`relative mr-4 shrink-0`}>
       <View
-        style={tw`overflow-hidden rounded-xl h-[40px] w-10 shrink-0 border border-slate-200`}
+        style={tw`overflow-hidden rounded-xl h-[40px] w-10 shrink-0 border border-slate-200 dark:border-slate-700`}
       >
         {CURRENCIES[isoCodeUpper] ? (
           <FastImage
@@ -47,9 +47,11 @@ export default function CountryFlag({ isoCode }: CountryFlagProps) {
       </View>
 
       <View
-        style={tw`absolute -bottom-1.5 -right-1.5 bg-slate-200 px-1 rounded`}
+        style={tw`absolute -bottom-1.5 -right-1.5 bg-slate-200 dark:bg-slate-700 px-1 rounded`}
       >
-        <Text style={tw`text-xs font-sans`}>{isoCodeUpper}</Text>
+        <Text style={tw`text-xs font-sans text-black dark:text-slate-100`}>
+          {isoCodeUpper}
+        </Text>
       </View>
     </View>
   );
