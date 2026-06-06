@@ -9,3 +9,9 @@ jobs:
     params:
       platform: ios
       profile: preview
+  build_android:
+    name: Preview Android
+    type: build
+    params:
+      platform: android
+      profile: preview
